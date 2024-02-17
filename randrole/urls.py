@@ -21,5 +21,7 @@ urlpatterns = [
     # path('admin/', admin.site.urls),
     path('random', views.randomrole),
     path('add', views.addrole),
+    path('role', views.rolenow),
+    path('delete', views.deleaterole),
 
 ]
