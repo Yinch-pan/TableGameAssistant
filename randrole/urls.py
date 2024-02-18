@@ -23,5 +23,9 @@ urlpatterns = [
     path('add', views.addrole),
     path('role', views.rolenow),
     path('delete', views.deleaterole),
+    path('addset', views.addroleset),
+    path('deltmprole', views.deltmprole),
+    path('addtmprole', views.addtmprole),
+    path('', views.homepage),
 
 ]

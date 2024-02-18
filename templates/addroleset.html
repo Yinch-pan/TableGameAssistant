@@ -43,18 +43,38 @@
 <div>
     <div class="container">
 
-        <form method="post">
-            {% csrf_token %}
-            <div class="form-group">
-                <label for="rolename">武将名称</label>
-                <input type="text" class="form-control" id="rolename" name="rolename">
+        <div>
+            <div class="container">
+
+                <h2>已选武将</h2>
+                <ul class="list-group">
+                    {% for obj in tmpset %}
+                        <li class="list-group-item">{{ obj.rolename }}
+                            <a type="button" class="btn btn-danger float-right" href="/sgs/deltmprole?rolename={{ obj.id }}">删除</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+
+                <h2>全部武将</h2>
+                <ul class="list-group">
+
+                    {% for obj in allrole %}
+                        <li class="list-group-item">{{ obj.rolename }}
+                            <a type="button" class="btn btn-primary float-right" href="/sgs/addtmprole?rolename={{ obj.id }}">添加</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+
+
             </div>
-            <button type="submit" class="btn btn-primary">提 交</button>
-            <a type="button" class="btn btn-danger float-right" href="/sgs/role">返回</a>
-        </form>
+
+
+            </form>
+        </div>
+
 
     </div>
-</div>
+
 
 </body>
 </html>
