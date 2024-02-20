@@ -1,44 +1,6 @@
-{% load static %}
+{% extends 'navbar.html' %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>添加武将</title>
-    <link rel="stylesheet" href="{% static 'plugins/bootstrap-4.6.2-dist/css/bootstrap.min.css' %}">
-
-</head>
-<body>
-<script src="{% static 'plugins/bootstrap-4.6.2-dist/js/bootstrap.js' %}"></script>
-
-
-<nav class="navbar navbar-expand-sm navbar-light bg-light">
-    <div class="container">
-        <a class="navbar-brand" href="#">三国杀助手</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">首页</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/sgs/role">现有武将</a>
-                </li>
-
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">添加武将 <span class="sr-only">(current)</span></a>
-                </li>
-
-
-            </ul>
-        </div>
-    </div>
-</nav>
+{% block container %}
 
 <div>
     <div class="container">
@@ -50,31 +12,42 @@
                 <ul class="list-group">
                     {% for obj in tmpset %}
                         <li class="list-group-item">{{ obj.rolename }}
-                            <a type="button" class="btn btn-danger float-right" href="/sgs/deltmprole?rolename={{ obj.id }}">删除</a>
+                            <a type="button" class="btn btn-danger float-right"
+                               href="/sgs/deltmprole?rolename={{ obj.id }}">删除</a>
                         </li>
                     {% endfor %}
                 </ul>
 
                 <h2>全部武将</h2>
                 <ul class="list-group">
-
                     {% for obj in allrole %}
                         <li class="list-group-item">{{ obj.rolename }}
-                            <a type="button" class="btn btn-primary float-right" href="/sgs/addtmprole?rolename={{ obj.id }}">添加</a>
+                            <a type="button" class="btn btn-primary float-right"
+                               href="/sgs/addtmprole?rolename={{ obj.id }}">添加</a>
                         </li>
                     {% endfor %}
                 </ul>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="rolesetname"><h2>武将集合名称</h2></label>
+                        <input type="text" class="form-control" id="rolesetname" name="rolesetname">
 
+
+                        <label for="introductionTextarea">简介</label>
+                        <textarea class="form-control" id="introductionTextarea" name="introductionTextarea" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">提 交</button>
+                    <a type="button" class="btn btn-danger float-right" href="/sgs">返回</a>
+
+                </form>
 
             </div>
 
-
-            </form>
         </div>
 
 
     </div>
+</div>
 
-
-</body>
-</html>
+{% endblock %}

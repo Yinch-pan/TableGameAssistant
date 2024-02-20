@@ -1,44 +1,8 @@
-{% load static %}
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>现有武将</title>
-    <link rel="stylesheet" href="{% static 'plugins/bootstrap-4.6.2-dist/css/bootstrap.min.css' %}">
-
-</head>
-<body>
-<script src="{% static 'plugins/bootstrap-4.6.2-dist/js/bootstrap.js' %}"></script>
 
 
-<nav class="navbar navbar-expand-sm navbar-light bg-light">
-    <div class="container">
-        <a class="navbar-brand" href="#">三国杀助手</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+{% extends 'navbar.html' %}
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">首页</a>
-                </li>
-
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">现有武将 <span class="sr-only">(current)</span></a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/sgs/add">添加武将</a>
-                </li>
-
-
-            </ul>
-        </div>
-    </div>
-</nav>
+{% block container %}
 <div>
     <div class="container">
         <div class="row">
@@ -47,7 +11,7 @@
                 <div class="card-body">
                     <h5 class="card-title">查看现有武将</h5>
                     <p class="card-text">查看现有武将</p>
-                    <a href="#" class="btn btn-primary">详情</a>
+                    <a href="role" class="btn btn-primary">详情</a>
                 </div>
             </div>
 
@@ -56,7 +20,7 @@
                 <div class="card-body">
                     <h5 class="card-title">添加武将</h5>
                     <p class="card-text">添加武将</p>
-                    <a href="#" class="btn btn-primary">详情</a>
+                    <a href="add" class="btn btn-primary">详情</a>
                 </div>
             </div>
         </div>
@@ -66,16 +30,15 @@
                 <div class="card-body">
                     <h5 class="card-title">添加武将集</h5>
                     <p class="card-text">添加武将集合</p>
-                    <a href="#" class="btn btn-primary">详情</a>
+                    <a href="addset" class="btn btn-primary">详情</a>
                 </div>
             </div>
 
             <div class="card col-sm" style="width: 18rem;">
-                {#        <img src="..." class="card-img-top" alt="...">#}
                 <div class="card-body">
                     <h5 class="card-title">随机武将</h5>
                     <p class="card-text">从武将集合中随机武将</p>
-                    <a href="#" class="btn btn-primary">详情</a>
+                    <a href="roleset" class="btn btn-primary">详情</a>
                 </div>
             </div>
 
@@ -85,6 +48,4 @@
     </div>
 </div>
 
-
-</body>
-</html>
+{% endblock %}

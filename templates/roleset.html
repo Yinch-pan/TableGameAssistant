@@ -1,0 +1,36 @@
+{% extends 'navbar.html' %}
+
+{% block container %}
+<div>
+    <div class="container">
+        {% for obj in allset %}
+            {% if not forloop.counter|divisibleby:2 %}
+                <div class="row">
+                     <div class="card col" style="width: 18rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ obj.setname }}</h5>
+                            <p class="card-text">{{ obj.introduction }}</p>
+                            <a href="#" class="btn btn-primary">详情</a>
+                            <a href="delset?setid={{ obj.id }}" class="btn btn-danger float-right">删除</a>
+
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="card col" style="width: 18rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ obj.setname }}</h5>
+                            <p class="card-text">{{ obj.introduction }}</p>
+                            <a href="#" class="btn btn-primary">详情</a>
+                            <a href="delset?setid={{ obj.id }}" class="btn btn-danger float-right">删除</a>
+
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+
+
+    </div>
+</div>
+
+{% endblock %}

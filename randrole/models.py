@@ -15,8 +15,11 @@ class Role_Table(models.Model):
 
 class Role_Set_Table(models.Model):
     setname = models.CharField(max_length=32, null=True, blank=True, default='None', verbose_name='武将名称')
+    introduction=models.CharField(max_length=256,null=True,blank=True,default='None',verbose_name='简介')
+
+
 class Tmp_Role_Table(models.Model):
-     rolename=models.ForeignKey(to=Role_Table,to_field='rolename',on_delete=models.CASCADE)
+     roleid=models.ForeignKey(to=Role_Table,to_field='id',on_delete=models.CASCADE)
 
 
 class Roleset_Detail_Table(models.Model):
