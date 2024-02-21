@@ -2,52 +2,66 @@
 
 {% block container %}
 
-<div>
-    <div class="container">
+    <div>
+        <div class="container">
 
-        <div>
-            <div class="container">
+            <div>
+                <div class="container">
 
-                <h2>已选武将</h2>
-                <ul class="list-group">
-                    {% for obj in tmpset %}
-                        <li class="list-group-item">{{ obj.rolename }}
-                            <a type="button" class="btn btn-danger float-right"
-                               href="/sgs/deltmprole?rolename={{ obj.id }}">删除</a>
+                    <h2>已选武将</h2>
+                    <ul class="list-group">
+                        {% for obj in tmpset %}
+                            <li class="list-group-item">{{ obj.rolename }}
+                                <a type="button" class="btn btn-danger float-right"
+                                   href="/sgs/deltmprole?rolename={{ obj.id }}&searchrole={{ searchrole }}">删除</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+
+                    <h2>全部武将</h2>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <form>
+                                <div class="row">
+                                    <input type="text" class="form-control col-3" id="searchrole" name="searchrole"
+                                           value="{{ searchrole }}">
+                                    <button type="submit" class="btn btn-primary col-1">搜索</button>
+                                    <a type="button" class="btn btn-danger col-1" href="/sgs/addset?searchrole=">清空</a>
+                                </div>
+                            </form>
                         </li>
-                    {% endfor %}
-                </ul>
-
-                <h2>全部武将</h2>
-                <ul class="list-group">
-                    {% for obj in allrole %}
-                        <li class="list-group-item">{{ obj.rolename }}
-                            <a type="button" class="btn btn-primary float-right"
-                               href="/sgs/addtmprole?rolename={{ obj.id }}">添加</a>
-                        </li>
-                    {% endfor %}
-                </ul>
-                <form method="post">
-                    {% csrf_token %}
-                    <div class="form-group">
-                        <label for="rolesetname"><h2>武将集合名称</h2></label>
-                        <input type="text" class="form-control" id="rolesetname" name="rolesetname">
 
 
-                        <label for="introductionTextarea">简介</label>
-                        <textarea class="form-control" id="introductionTextarea" name="introductionTextarea" rows="3"></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary">提 交</button>
-                    <a type="button" class="btn btn-danger float-right" href="/sgs">返回</a>
+                        {% for obj in allrole %}
+                            <li class="list-group-item">{{ obj.rolename }}
+                                <a type="button" class="btn btn-primary float-right"
+                                   href="/sgs/addtmprole?rolename={{ obj.id }}&searchrole={{ searchrole }}">添加</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
 
-                </form>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="rolesetname"><h2>武将集合名称</h2></label>
+                            <input type="text" class="form-control" id="rolesetname" name="rolesetname">
+
+
+                            <label for="introductionTextarea"><h3>简介</h3></label>
+                            <textarea class="form-control" id="introductionTextarea" name="introductionTextarea"
+                                      rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">提 交</button>
+                        <a type="button" class="btn btn-danger float-right" href="/sgs">返回</a>
+
+                    </form>
+
+                </div>
 
             </div>
 
+
         </div>
-
-
     </div>
-</div>
 
 {% endblock %}

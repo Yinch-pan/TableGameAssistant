@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('randrole', '0005_remove_tmp_role_table_role_tmp_role_table_roleid_and_more'),
+        ('sgs', '0005_remove_tmp_role_table_role_tmp_role_table_roleid_and_more'),
     ]
 
     operations = [

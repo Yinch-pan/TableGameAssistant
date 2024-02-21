@@ -13,7 +13,7 @@ class Role_Table(models.Model):
     # rolecountry = models.ForeignKey(to='Country_Table',to_field='country',on_delete=models.CASCADE)
 
 
-class Role_Set_Table(models.Model):
+class Set_Table(models.Model):
     setname = models.CharField(max_length=32, null=True, blank=True, default='None', verbose_name='武将名称')
     introduction=models.CharField(max_length=256,null=True,blank=True,default='None',verbose_name='简介')
 
@@ -24,5 +24,5 @@ class Tmp_Role_Table(models.Model):
 
 class Roleset_Detail_Table(models.Model):
     roleid=models.ForeignKey(to=Role_Table,to_field='id',on_delete=models.CASCADE)
-    setid=models.ForeignKey(to=Role_Set_Table,to_field='id',on_delete=models.CASCADE)
+    setid=models.ForeignKey(to=Set_Table, to_field='id', on_delete=models.CASCADE)
 

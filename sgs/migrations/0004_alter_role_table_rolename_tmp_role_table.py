@@ -7,7 +7,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('randrole', '0003_role_set_table_roleset_detail_table'),
+        ('sgs', '0003_role_set_table_roleset_detail_table'),
     ]
 
     operations = [
@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
             name='Tmp_Role_Table',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('role', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='randrole.role_table', to_field='rolename')),
+                ('role', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='sgs.role_table', to_field='rolename')),
             ],
         ),
     ]

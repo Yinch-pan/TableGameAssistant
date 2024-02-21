@@ -7,7 +7,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('randrole', '0002_remove_role_table_rolecountry'),
+        ('sgs', '0002_remove_role_table_rolecountry'),
     ]
 
     operations = [
@@ -22,8 +22,8 @@ class Migration(migrations.Migration):
             name='Roleset_Detail_Table',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('roleid', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='randrole.role_table')),
-                ('setid', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='randrole.role_set_table')),
+                ('roleid', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='sgs.role_table')),
+                ('setid', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='sgs.role_set_table')),
             ],
         ),
     ]

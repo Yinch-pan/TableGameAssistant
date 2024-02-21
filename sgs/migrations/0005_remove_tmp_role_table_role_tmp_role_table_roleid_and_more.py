@@ -7,7 +7,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('randrole', '0004_alter_role_table_rolename_tmp_role_table'),
+        ('sgs', '0004_alter_role_table_rolename_tmp_role_table'),
     ]
 
     operations = [
@@ -18,7 +18,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='tmp_role_table',
             name='roleid',
-            field=models.ForeignKey(default=3, on_delete=django.db.models.deletion.CASCADE, to='randrole.role_table'),
+            field=models.ForeignKey(default=3, on_delete=django.db.models.deletion.CASCADE, to='sgs.role_table'),
             preserve_default=False,
         ),
         migrations.AlterField(

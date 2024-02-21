@@ -28,6 +28,10 @@ urlpatterns = [
     path('addtmprole', views.addtmprole),
     path('roleset', views.roleset),
     path('delset', views.delset),
+    path('editroleset', views.editroleset),
+    path('delsetrole', views.delsetrole),
+    path('addsetrole', views.addsetrole),
+    path('randroleset', views.randroleset),
     path('', views.homepage),
 
 ]

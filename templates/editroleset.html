@@ -1,0 +1,63 @@
+{% extends 'navbar.html' %}
+
+{% block container %}
+
+
+    <div>
+        <div class="container">
+
+            <div>
+                <div class="container">
+                    <h1>{{ setdata.setname }}</h1>
+                    {{ setdata.introduction }}
+                    <h2>已选武将</h2>
+                    <ul class="list-group">
+                        {% for obj in roleinset %}
+                            <li class="list-group-item">{{ obj.rolename }}
+                                <a type="button" class="btn btn-danger float-right"
+                                   href="/sgs/delsetrole?setid={{ setdata.id }}&roleid={{ obj.id }}&searchrole={{ searchrole }}">删除</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+
+                    <h2>全部武将</h2>
+                    <ul class="list-group">
+
+                        <li class="list-group-item">
+
+                            <form>
+                                <div class="row">
+
+                                    <input type="text" class="form-control col-3" id="searchrole"
+                                           name="searchrole"
+                                           value="{{ searchrole }}">
+
+                                    <button type="submit" class="btn btn-primary col-1">搜索</button>
+                                    <a type="button" class="btn btn-danger col-1"
+                                       href="/sgs/editroleset?searchrole=&rolesetid={{ setdata.id }}">清空</a>
+
+                                    <input type="text" class="form-control col-1 invisible" id="rolesetid"
+                                           name="rolesetid"
+                                           value={{ setdata.id }}>
+                                </div>
+
+                            </form>
+
+
+                        </li>
+
+
+                        {% for obj in rolenotinset %}
+                            <li class="list-group-item">{{ obj.rolename }}
+                                <a type="button" class="btn btn-primary float-right"
+                                   href="/sgs/addsetrole?setid={{ setdata.id }}&roleid={{ obj.id }}&searchrole={{ searchrole }}">添加</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

@@ -24,7 +24,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('rolename', models.CharField(blank=True, default='None', max_length=32, null=True, verbose_name='武将名称')),
-                ('rolecountry', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='randrole.country_table', to_field='country')),
+                ('rolecountry', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='sgs.country_table', to_field='country')),
             ],
         ),
     ]

@@ -6,7 +6,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('randrole', '0001_initial'),
+        ('sgs', '0001_initial'),
     ]
 
     operations = [

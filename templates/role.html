@@ -3,9 +3,10 @@
 {% block container %}
 
 <div>
-    <div class="container">
 
+    <div class="container">
         <ul class="list-group">
+        <li class="list-group-item"><a type="button" class="btn btn-success " href="/sgs/add">添加武将</a></li>
             {% for obj in allrole %}
                 <li class="list-group-item">{{ obj.rolename }}
                     <a type="button" class="btn btn-danger float-right" href="/sgs/delete?roleid={{ obj.id }}">删除</a>
@@ -13,9 +14,7 @@
                 </li>
             {% endfor %}
         </ul>
-        <div>
-            <a type="button" class="btn btn-success float-right" href="/sgs/add">添加武将</a>
-        </div>
+    <a type="button" class="btn btn-danger float-right" href="/sgs">返回</a>
 
     </div>
 
