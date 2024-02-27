@@ -129,3 +129,5 @@ def editroleset(request):
     return render(request, 'editroleset.html',
                   {'roleinset': roleinset, 'rolenotinset': rolenotinset, 'setdata': setdata, 'searchrole': search})
 
+def faceas(request):
+    return render(request,'faceas.html')

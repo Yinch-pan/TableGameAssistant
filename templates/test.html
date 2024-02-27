@@ -2,9 +2,33 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>按钮颜色切换</title>
+    <style>
+        .color-btn {
+            padding: 10px;
+            margin: 5px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-<h1>test</h1>
+
+<script>
+    function toggleColor(buttonId) {
+        var button = document.getElementById(buttonId);
+
+        // 获取当前按钮的颜色
+        var currentColor = button.style.backgroundColor || getComputedStyle(button).backgroundColor;
+
+        // 如果当前是蓝色，则改为灰色；如果是灰色，则改为蓝色
+        button.style.backgroundColor = (currentColor === 'blue') ? 'gray' : 'blue';
+    }
+</script>
+
+<button id="button1" class="color-btn" onclick="toggleColor('button1')">按钮1</button>
+<button id="button2" class="color-btn" onclick="toggleColor('button2')">按钮2</button>
+<button id="button3" class="color-btn" onclick="toggleColor('button3')">按钮3</button>
+
 </body>
 </html>
