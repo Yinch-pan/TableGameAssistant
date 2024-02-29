@@ -32,6 +32,10 @@ urlpatterns = [
     path('delsetrole', views.delsetrole),
     path('addsetrole', views.addsetrole),
     path('randroleset', views.randroleset),
+    path('faceas/cardrecord', views.cardrecord),
+    path('faceas/cardrecords', views.cardrecords),
+    path('faceas/randomnum', views.randomnum),
+    path('faceas/playersit', views.playersit),
 
     path('faceas', views.faceas),
     path('', views.homepage),

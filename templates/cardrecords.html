@@ -1,0 +1,85 @@
+
+
+{% extends 'navbar.html' %}
+
+{% block container %}
+    <div>
+        <div class="container">
+            <ul class="list-group" id="widgetContainer"></ul>
+            <a href="/sgs/faceas" class="btn btn-danger float-right">返回</a>
+        </div>
+    </div>
+
+
+    <script>
+        // 部件数据
+        // 创建独立的计数器变量
+        var counterIds = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0]
+        var names = ['杀', '火杀', '雷杀', '闪', '桃', '酒', '兵粮寸断', '乐不思蜀', '闪电', '南蛮入侵', '万箭齐发', '五谷丰登', '桃园结义', '铁索连环', '决斗', '借刀杀人', '火攻', '过河拆桥', '顺手牵羊', '无中生有', '无懈可击', '诸葛连弩', '青釭剑', '寒冰剑', '雌雄双股剑', '古锭刀', '丈八蛇矛', '青龙偃月刀', '朱雀羽扇', '麒麟弓', '八卦阵', '藤甲', '白银狮子', '仁王盾', '+1马', '-1马','木牛流马', 'A的数量', '2的数量', '3的数量', '4的数量', '5的数量', '6的数量', '7的数量', '8的数量', '9的数量', '10的数量', 'J的数量', 'Q的数量', 'K的数量', '牌堆数量']
+
+        // 动态生成部件
+        var container = document.getElementById('widgetContainer');
+
+        names.forEach(function (na, index) {
+            var li = document.createElement('li');
+            li.classList.add('list-group-item');
+
+            var button = document.createElement('button');
+            button.classList.add('btn', 'btn-primary', 'btn-lg', 'active');
+            button.setAttribute('role', 'button');
+            button.id = 'button' + (index);
+            button.textContent = names[index];
+            button.onclick = function () {
+                toggleColor(button.id);
+            };
+
+            var counterDiv = document.createElement('div');
+            counterDiv.classList.add('counter', 'float-right');
+
+            var buttonPlus = document.createElement('button');
+            buttonPlus.classList.add('btn', 'btn-danger', 'btn-lg');
+            buttonPlus.textContent = '+';
+            buttonPlus.onclick = function () {
+                updateCounter(index, true);
+            };
+
+            var counterSpan = document.createElement('span');
+            counterSpan.classList.add('btn', 'btn-light', 'btn-lg');
+            counterSpan.id = index;
+            counterSpan.textContent = '0';
+
+            var buttonMinus = document.createElement('button');
+            buttonMinus.classList.add('btn', 'btn-danger', 'btn-lg');
+            buttonMinus.textContent = '-';
+            buttonMinus.onclick = function () {
+                updateCounter(index, false);
+            };
+
+            counterDiv.appendChild(buttonPlus);
+            counterDiv.appendChild(counterSpan);
+            counterDiv.appendChild(buttonMinus);
+
+            li.appendChild(button);
+            li.appendChild(counterDiv);
+
+            container.appendChild(li);
+        });
+
+
+        function updateCounter(counterId, increment) {
+            // 获取计数器元素
+            var counterElement = document.getElementById(counterId);
+            // 更新计数器值
+            if (increment) {
+                counterIds[counterId]++;
+            } else {
+                counterIds[counterId]--;
+            }
+
+            // 显示更新后的值
+            counterElement.textContent = counterIds[counterId];
+        }
+    </script>
+
+
+{% endblock %}

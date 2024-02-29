@@ -1,0 +1,58 @@
+
+
+{% extends 'navbar.html' %}
+
+{% block container %}
+
+    <div class="container">
+
+        <h1>随机数字</h1>
+        <label for="input1">请输入一个数字,将会在1到这个数字内随机：</label>
+        <input type="number" id="input1" placeholder="8">
+
+        <button class="btn btn-primary" onclick="generateRandomNumber()">生成随机数字</button>
+
+    </div>
+    <div class="container">
+        <h1>谋弈</h1>
+        <label>两人同时秘密选择,亮出之后,若选择一样,则谋弈成功</label>
+        <a class="invisible">\t</a>
+        <button href="#" class="btn btn-secondary col" role="button" id="button1"
+                onclick="toggleColor('button1')">选项一
+        </button>
+        <a class="invisible">\t</a>
+        <button href="#" class="btn btn-secondary col" role="button" id="button2"
+                onclick="toggleColor('button2')">选项二
+        </button>
+    </div>
+    <div class="container">
+    <a class="btn btn-danger float-right" href="/sgs/faceas"> 返回</a>
+</div>
+    <script>
+        function generateRandomNumber() {
+            var input1 = parseInt(document.getElementById('input1').value);
+
+            if (isNaN(input1)) {
+                alert('请输入有效的数字！');
+                return;
+            }
+
+            var randomNumber = Math.floor(Math.random() * input1) + 1;
+
+            alert('生成的随机数字是：' + randomNumber);
+        }
+
+
+        function toggleColor(buttonId) {
+            var button = document.getElementById(buttonId);
+
+            // 获取当前按钮的颜色
+            var currentColor = button.style.backgroundColor || getComputedStyle(button).backgroundColor;
+
+            button.style.backgroundColor = (currentColor === "rgb(108, 117, 125)") ? 'rgb(0, 105, 217)' : "rgb(108, 117, 125)";
+        }
+
+
+    </script>
+
+{% endblock %}

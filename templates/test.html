@@ -3,32 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>按钮颜色切换</title>
+    <title>环状按钮</title>
     <style>
-        .color-btn {
-            padding: 10px;
-            margin: 5px;
-            cursor: pointer;
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .circle-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+        }
+
+        .btn-success.circle-button {
+            {#position: absolute;#}
+            {#width: 40px;#}
+            {#height: 40px;#}
+            {#background-color: #3498db;#}
+            {#border-radius: 50%;#}
+            {#display: flex;#}
+            {#align-items: center;#}
+            {#justify-content: center;#}
+            {#color: white;#}
+            {#font-weight: bold;#}
+            {#cursor: pointer;#}
         }
     </style>
 </head>
 <body>
+    <div>
+        <label for="inputX">输入 X 值：</label>
+        <input type="number" id="inputX" min="1" value="5">
+        <button onclick="generateButtons()">生成按钮</button>
+    </div>
 
-<script>
-    function toggleColor(buttonId) {
-        var button = document.getElementById(buttonId);
+    <div class="circle-container" id="circleContainer"></div>
 
-        // 获取当前按钮的颜色
-        var currentColor = button.style.backgroundColor || getComputedStyle(button).backgroundColor;
+    <script>
+        function generateButtons() {
+            const x = parseInt(document.getElementById('inputX').value);
+            const circleContainer = document.getElementById('circleContainer');
+            circleContainer.innerHTML = '';
 
-        // 如果当前是蓝色，则改为灰色；如果是灰色，则改为蓝色
-        button.style.backgroundColor = (currentColor === 'blue') ? 'gray' : 'blue';
-    }
-</script>
+            const radius = 80; // 环的半径
+            const centerX = 100; // 圆心 x 坐标
+            const centerY = 100; // 圆心 y 坐标
 
-<button id="button1" class="color-btn" onclick="toggleColor('button1')">按钮1</button>
-<button id="button2" class="color-btn" onclick="toggleColor('button2')">按钮2</button>
-<button id="button3" class="color-btn" onclick="toggleColor('button3')">按钮3</button>
-
+            for (let i = 0; i < x; i++) {
+                const angle = (i / x) * 2 * Math.PI; // 计算每个按钮的角度
+                const button = document.createElement('div');
+                button.className = 'circle-button';
+                button.style.left = centerX + radius * Math.sin(angle) - 20 + 'px';
+                button.style.top = centerY + radius * Math.cos(angle) - 20 + 'px';
+                button.textContent = i + 1;
+                circleContainer.appendChild(button);
+            }
+        }
+    </script>
 </body>
 </html>

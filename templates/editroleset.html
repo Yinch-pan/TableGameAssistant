@@ -9,7 +9,18 @@
             <div>
                 <div class="container">
                     <h1>{{ setdata.setname }}</h1>
-                    {{ setdata.introduction }}
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="introductionTextarea"><h3>简介</h3></label>
+                            <textarea class="form-control" id="introductionTextarea" name="introductionTextarea"
+                                      rows="3" >{{ setdata.introduction }}</textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">提 交</button>
+
+                    </form>
+
+
                     <h2>已选武将</h2>
                     <ul class="list-group">
                         {% for obj in roleinset %}
@@ -56,6 +67,7 @@
                     </ul>
                 </div>
             </div>
+            <a type="button" class="btn btn-danger float-right" href="/sgs/roleset">返回</a>
         </div>
     </div>
 

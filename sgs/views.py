@@ -115,10 +115,17 @@ def randroleset(request):
 
 
 def editroleset(request):
+
+
     rolesetid = request.GET.get('rolesetid')
     roleidinset = models.Roleset_Detail_Table.objects.filter(setid_id=rolesetid).all()
     roleinset = models.Role_Table.objects.filter(id__in=roleidinset.values('roleid_id'))
     rolenotinset = models.Role_Table.objects.exclude(id__in=roleidinset.values('roleid_id'))
+
+    if request.method == 'POST':
+        intro = request.POST.get('introductionTextarea')
+
+        models.Set_Table.objects.filter(id=rolesetid).update(introduction=intro)
 
     search = request.GET.get('searchrole')
     if search is None:
@@ -131,3 +138,17 @@ def editroleset(request):
 
 def faceas(request):
     return render(request,'faceas.html')
+
+def cardrecord(request):
+    return render(request,'cardrecord.html')
+
+def cardrecords(request):
+    return render(request,'cardrecords.html')
+
+def randomnum(request):
+    return render(request,'randomnum.html')
+
+
+def playersit(request):
+    return render(request,'playersit.html')
+
