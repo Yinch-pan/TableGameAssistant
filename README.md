@@ -1,16 +1,4 @@
-桌游助手的网站源码
 
-网站地址:http://212.64.21.197/sgs/
-
-(还没有搞域名)
-
-本网站框架是由Django实现的
-
-目前实现的功能是三国杀中的:
-添加武将,从添加的武将中选择若干个成为集合,从集合中随机筛选若干武将
-
-当然,不是三国杀也ok,就是实现了分类筛选功能
-之后的功能还有待完善
 
 [//]: # (<div align ="center">)
 [//]: # (    <img alt="BLTH logo" src="https://raw.githubusercontent.com/andywang425/BLTH/master/images/logo.min.svg" width="150">)
@@ -39,7 +27,7 @@
 
 # 许可证
 
-本项目以[MIT]()许可证开源。
+本项目以[MIT](https://github.com/Yinch-pan/TableGameAssistant/blob/main/LICENSE)许可证开源。
 
 
 # 更新日志
