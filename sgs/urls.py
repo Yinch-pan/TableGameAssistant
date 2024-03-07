@@ -36,8 +36,11 @@ urlpatterns = [
     path('faceas/cardrecords', views.cardrecords),
     path('faceas/randomnum', views.randomnum),
     path('faceas/playersit', views.playersit),
-
     path('faceas', views.faceas),
+
+    path('tables',views.tables),
+    path('tables/edittable',views.edittable),
+
     path('', views.homepage),
 
 ]

@@ -1,0 +1,65 @@
+
+
+{% extends 'navbar.html' %}
+
+{% block container %}
+    <div class="container" id='con'>
+
+        <div>
+        <label for="inputX">输入一共多少人：</label>
+        <input type="number" id="inputX" min="1" value="8">
+{#        <label for="nowX">输入你的位次：</label>#}
+{#        <input type="number" id="nowX" min="1" value="1">#}
+        <a class="btn btn-primary" href="/sgs/tables/edittable?num">确定</a>
+        <a class="btn btn-danger" href="/sgs/tables"> 返回</a>
+        </div>
+        <div class="circle-container" id="circleContainer"></div>
+    </div>
+    <script>
+        const container = document.getElementById('con');
+        const containerWidth = container.clientWidth;
+        const containerHeight = container.clientHeight;
+        let player_states=(1<<8)-1
+
+        function toggleColor(buttonId) {
+            var button = document.getElementById(buttonId);
+            {#print(buttonId)#}
+            // 获取当前按钮的颜色
+            var currentColor = button.style.backgroundColor || getComputedStyle(button).backgroundColor;
+            button.style.backgroundColor = (currentColor === "rgb(108, 117, 125)") ? 'rgb(0, 105, 217)' : "rgb(108, 117, 125)";
+            player_states^=(1<<(parseInt(button.id)))
+        }
+
+        function generateButtons() {
+            const x = parseInt(document.getElementById('inputX').value);
+            {#const y = parseInt(document.getElementById('nowX').value);#}
+            const circleContainer = document.getElementById('circleContainer');
+            circleContainer.innerHTML = '';
+
+            const radius = Math.sqrt(containerHeight * containerHeight + containerWidth * containerWidth) / 8; // 环的半径
+            const centerX = containerWidth / 2; // 圆心 x 坐标
+            const centerY = containerHeight / 2+200; // 圆心 y 坐标
+
+            for (let i = 0; i < x; i++) {
+                const angle = (i / x) * 2 * Math.PI; // 计算每个按钮的角度
+                const button = document.createElement('div');
+                button.className = 'btn btn-primary circle-button';
+                button.id = i
+                button.onclick = function () {
+                    toggleColor(button.id);
+                };
+                button.style.left = centerX + radius * Math.sin(angle) - 20 + 'px';
+                button.style.top = centerY + radius * Math.cos(angle) - 20 + 'px';
+                button.textContent = (i) % x + 1;
+                circleContainer.appendChild(button);
+            }
+        }
+    generateButtons()
+
+    </script>
+
+
+
+
+
+{% endblock %}

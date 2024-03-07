@@ -109,7 +109,6 @@ def randroleset(request):
     allrole=models.Roleset_Detail_Table.objects.filter(setid=setid).order_by('?').all()
     setdata=models.Set_Table.objects.filter(id=setid).first()
 
-    print(allrole)
     allrole=models.Role_Table.objects.filter(id__in=allrole[:num].values('roleid_id')).all()
     return render(request,'randroleset.html',{'setdata':setdata,'allrole':allrole,'randnum':num})
 
@@ -151,4 +150,17 @@ def randomnum(request):
 
 def playersit(request):
     return render(request,'playersit.html')
+
+def tables(request):
+    all_table=models.Table_Table.objects.all()
+    return render(request,'tables.html',{"alltable":all_table})
+
+def addtables(request):
+    all_table=models.Table_Table.objects.all()
+    return redirect('/sgs/roleset')
+
+def edittable(request):
+    tableid=request.GET.get("tableid")
+    tabledata=models.Table_Table.objects.filter(id=tableid)
+    return render(request,'edittable.html',{'tabledata':tabledata})
 
