@@ -40,6 +40,8 @@ urlpatterns = [
 
     path('tables',views.tables),
     path('tables/edittable',views.edittable),
+    path('tables/addtable',views.addtable),
+    path('tables/deltable',views.deltable),
 
     path('', views.homepage),
 

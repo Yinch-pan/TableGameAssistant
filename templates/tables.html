@@ -6,13 +6,13 @@
 
     <div class="container">
         <ul class="list-group">
-        <li class="list-group-item"><a type="button" class="btn btn-success " href="/sgs/table/addtable">添加游戏桌</a></li>
-{#            {% for obj in allrole %}#}
-{#                <li class="list-group-item">{{ obj.rolename }}#}
-{#                    <a type="button" class="btn btn-danger float-right" href="/sgs/delete?roleid={{ obj.id }}">删除</a>#}
-{#                    <a type="button" class="btn btn-primary float-right">编辑</a>#}
-{#                </li>#}
-{#            {% endfor %}#}
+        <li class="list-group-item"><a type="button" class="btn btn-success " href="/sgs/tables/addtable">添加游戏桌</a></li>
+            {% for obj in alltable %}
+                <li class="list-group-item">{{ obj.id }}
+                    <a type="button" class="btn btn-danger float-right" href="/sgs/tables/deltable?tableid={{ obj.id }}">删除</a>
+                    <a type="button" class="btn btn-primary float-right" href="/sgs/tables/edittable?tableid={{ obj.id }}">编辑</a>
+                </li>
+            {% endfor %}
         </ul>
     <a type="button" class="btn btn-danger float-right" href="/sgs">返回</a>
 

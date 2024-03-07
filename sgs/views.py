@@ -1,4 +1,5 @@
 import random
+import time
 
 from django.shortcuts import render, redirect
 from sgs import models
@@ -155,12 +156,22 @@ def tables(request):
     all_table=models.Table_Table.objects.all()
     return render(request,'tables.html',{"alltable":all_table})
 
-def addtables(request):
-    all_table=models.Table_Table.objects.all()
-    return redirect('/sgs/roleset')
+def addtable(request):
+    models.Table_Table.objects.create(randseed=time.time(),playernum=8,player_states=11111111)
+    return redirect('/sgs/tables')
 
+def deltable(request):
+    tableid=request.GET.get('tableid')
+    models.Table_Table.objects.filter(id=tableid).all().delete()
+    return redirect('/sgs/tables')
 def edittable(request):
     tableid=request.GET.get("tableid")
-    tabledata=models.Table_Table.objects.filter(id=tableid)
+    playernum=request.GET.get("player_num")
+    player_states=request.GET.get("player_states")
+    print(playernum)
+    print(player_states)
+    if playernum is not None:
+        models.Table_Table.objects.filter(id=tableid).all().update(playernum=playernum,player_states=player_states)
+    tabledata=models.Table_Table.objects.filter(id=tableid).first()
     return render(request,'edittable.html',{'tabledata':tabledata})
 
