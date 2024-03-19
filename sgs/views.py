@@ -104,19 +104,18 @@ def delset(request):
     models.Set_Table.objects.filter(id=setid).delete()
     return redirect('/sgs/roleset')
 
-def randroleset(request):
-    setid=request.GET.get('rolesetid')
-    num=int(request.GET.get('randnum'))
-    allrole=models.Roleset_Detail_Table.objects.filter(setid=setid).order_by('?').all()
-    setdata=models.Set_Table.objects.filter(id=setid).first()
 
-    allrole=models.Role_Table.objects.filter(id__in=allrole[:num].values('roleid_id')).all()
-    return render(request,'randroleset.html',{'setdata':setdata,'allrole':allrole,'randnum':num})
+def randroleset(request):
+    setid = request.GET.get('rolesetid')
+    num = int(request.GET.get('randnum'))
+    allrole = models.Roleset_Detail_Table.objects.filter(setid=setid).order_by('?').all()
+    setdata = models.Set_Table.objects.filter(id=setid).first()
+
+    allrole = models.Role_Table.objects.filter(id__in=allrole[:num].values('roleid_id')).all()
+    return render(request, 'randroleset.html', {'setdata': setdata, 'allrole': allrole, 'randnum': num})
 
 
 def editroleset(request):
-
-
     rolesetid = request.GET.get('rolesetid')
     roleidinset = models.Roleset_Detail_Table.objects.filter(setid_id=rolesetid).all()
     roleinset = models.Role_Table.objects.filter(id__in=roleidinset.values('roleid_id'))
@@ -136,42 +135,113 @@ def editroleset(request):
     return render(request, 'editroleset.html',
                   {'roleinset': roleinset, 'rolenotinset': rolenotinset, 'setdata': setdata, 'searchrole': search})
 
+
 def faceas(request):
-    return render(request,'faceas.html')
+    return render(request, 'faceas.html')
+
 
 def cardrecord(request):
-    return render(request,'cardrecord.html')
+    return render(request, 'cardrecord.html')
+
 
 def cardrecords(request):
-    return render(request,'cardrecords.html')
+    return render(request, 'cardrecords.html')
+
 
 def randomnum(request):
-    return render(request,'randomnum.html')
+    return render(request, 'randomnum.html')
 
 
 def playersit(request):
-    return render(request,'playersit.html')
+    return render(request, 'playersit.html')
+
 
 def tables(request):
-    all_table=models.Table_Table.objects.all()
-    return render(request,'tables.html',{"alltable":all_table})
+    all_table = models.Table_Table.objects.all()
+    return render(request, 'tables.html', {"alltable": all_table})
+
 
 def addtable(request):
-    models.Table_Table.objects.create(randseed=time.time(),playernum=8,player_states=11111111)
+    models.Table_Table.objects.create(randseed=time.time(), playernum=8, player_states=255)
     return redirect('/sgs/tables')
+
+
+def updatetable(request):
+    tableid = request.GET.get("tableid")
+    playernum = request.GET.get("player_num")
+    player_states = request.GET.get("player_states")
+    if playernum is None: playernum = models.Table_Table.objects.filter(id=tableid).first().playernum
+    if player_states is None: player_states = models.Table_Table.objects.filter(id=tableid).first().player_states
+    models.Table_Table.objects.filter(id=tableid).all().update(playernum=playernum, player_states=player_states)
+    player_states = int(player_states)
+    playernum = int(playernum)
+    tabledata = models.Table_Table.objects.filter(id=tableid).first()
+
+    player_states = int(player_states)
+    lst1 = []
+
+    for i in range(playernum):
+        if ((player_states >> i) & 1) == 1:
+            lst1.append(i + 1)
+    lst2 = lst1.copy()
+    lst3 = lst1.copy()
+    if len(lst1)>=4:
+        while True:
+            random.shuffle(lst1)
+            random.shuffle(lst2)
+            random.shuffle(lst3)
+            for i in range(len(lst1)):
+                if lst1[i] == lst2[i] or lst3[i] == lst2[i] or lst1[i] == lst3[i]:
+                    break
+            else:
+                res=' '.join([str(i) for i in lst1])+','+' '.join([str(i) for i in lst2])+','+' '.join([str(i) for i in lst3])
+                models.Table_Table.objects.filter(id=tableid).all().update(randseed=res)
+                break
+    return redirect(f'/sgs/tables/edittable?tableid={tableid}&player_num={playernum}&player_states={player_states}')
+
 
 def deltable(request):
-    tableid=request.GET.get('tableid')
+    tableid = request.GET.get('tableid')
     models.Table_Table.objects.filter(id=tableid).all().delete()
     return redirect('/sgs/tables')
-def edittable(request):
-    tableid=request.GET.get("tableid")
-    playernum=request.GET.get("player_num")
-    player_states=request.GET.get("player_states")
-    print(playernum)
-    print(player_states)
-    if playernum is not None:
-        models.Table_Table.objects.filter(id=tableid).all().update(playernum=playernum,player_states=player_states)
-    tabledata=models.Table_Table.objects.filter(id=tableid).first()
-    return render(request,'edittable.html',{'tabledata':tabledata})
 
+
+def edittable(request):
+    tableid = request.GET.get("tableid")
+    playernum = request.GET.get("player_num")
+    player_states = request.GET.get("player_states")
+    if playernum is None: playernum = models.Table_Table.objects.filter(id=tableid).first().playernum
+    if player_states is None: player_states = models.Table_Table.objects.filter(id=tableid).first().player_states
+    models.Table_Table.objects.filter(id=tableid).all().update(playernum=playernum, player_states=player_states)
+    player_states = int(player_states)
+    playernum = int(playernum)
+    tabledata = models.Table_Table.objects.filter(id=tableid).first()
+    rsd = models.Table_Table.objects.filter(id=tableid).first().randseed
+
+    player_states = int(player_states)
+    lst1 = []
+
+    for i in range(playernum):
+        if ((player_states >> i) & 1) == 1:
+            lst1.append(i + 1)
+    if len(lst1)<4:
+        lst1 = []
+        lst2 = []
+        lst3 = []
+        return render(request, 'edittable.html', {'tabledata': tabledata, "proatk": [lst1, lst2, lst3]})
+    # print(rsd)
+    # print(rsd.split(',')[0])
+    # print(len(lst1),rsd.split(',')[0])
+    if set(lst1)!=set([int(i) for i in rsd.split(',')[0].split()]):
+        return redirect(f'/sgs/tables/update?tableid={tableid}&player_num={playernum}&player_states={player_states}')
+
+    # models.Table_Table.objects.filter(id=tableid).all().update(randseed=res)
+    # print(rsd)
+    # print(random.randint(1,100))
+    # a=[1,2,3,4]
+    # random.shuffle(a)
+    # print(a)
+    lst1=[int(i) for i in rsd.split(',')[0].split()]
+    lst2=[int(i) for i in rsd.split(',')[1].split()]
+    lst3=[int(i) for i in rsd.split(',')[2].split()]
+    return render(request, 'edittable.html', {'tabledata': tabledata, "proatk": [lst1, lst2, lst3]})

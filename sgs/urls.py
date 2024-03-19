@@ -41,6 +41,7 @@ urlpatterns = [
     path('tables',views.tables),
     path('tables/edittable',views.edittable),
     path('tables/addtable',views.addtable),
+    path('tables/update',views.updatetable),
     path('tables/deltable',views.deltable),
 
     path('', views.homepage),
