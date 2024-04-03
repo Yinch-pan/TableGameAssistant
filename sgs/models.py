@@ -34,3 +34,11 @@ class Table_Table(models.Model):
     randseed = models.CharField(max_length=256, null=True, blank=True, default='None', verbose_name='随机种子')
     playernum = models.IntegerField(null=True, blank=True, default='None', verbose_name='玩家人数')
     player_states = models.IntegerField(null=True, blank=True, default='None', verbose_name='玩家存活情况')
+
+
+class Skills_Table(models.Model):
+    skill_name= models.CharField(max_length=10, null=True, blank=True, default='None', verbose_name='技能名称')
+    skill_belong= models.CharField(max_length=64, null=True, blank=True, default='None', verbose_name='所属武将')
+    skill_server= models.CharField(max_length=32, null=True, blank=True, default='None', verbose_name='属于服务器')
+    skill_type= models.CharField(max_length=128, null=True, blank=True, default='None', verbose_name='技能类型')
+    skill_detail= models.CharField(max_length=1024, null=True, blank=True, default='None', verbose_name='技能描述')

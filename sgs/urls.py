@@ -22,6 +22,7 @@ urlpatterns = [
     path('random', views.randomrole),
     path('add', views.addrole),
     path('role', views.rolenow),
+    path('role/detail', views.roledetail),
     path('delete', views.deleaterole),
     path('addset', views.addroleset),
     path('deltmprole', views.deltmprole),
@@ -32,17 +33,32 @@ urlpatterns = [
     path('delsetrole', views.delsetrole),
     path('addsetrole', views.addsetrole),
     path('randroleset', views.randroleset),
+
+
+
+
     path('faceas/cardrecord', views.cardrecord),
     path('faceas/cardrecords', views.cardrecords),
     path('faceas/randomnum', views.randomnum),
     path('faceas/playersit', views.playersit),
+    path('faceas/roleskills', views.roleskills),
+    path('faceas/roleskills/xushao', views.xushao),
+    path('faceas/roleskills/zuxunyou', views.zuxunyou),
     path('faceas', views.faceas),
+
+
+
 
     path('tables',views.tables),
     path('tables/edittable',views.edittable),
     path('tables/addtable',views.addtable),
     path('tables/update',views.updatetable),
     path('tables/deltable',views.deltable),
+
+
+
+    path('skills',views.skills),
+    path('skills/refreshskills', views.refreshskills),
 
     path('', views.homepage),
 

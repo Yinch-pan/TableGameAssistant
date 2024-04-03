@@ -1,68 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>环状按钮</title>
-    <style>
-        body {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-        }
-
-        .circle-container {
-            position: relative;
-            width: 200px;
-            height: 200px;
-        }
-
-        .btn-success.circle-button {
-            {#position: absolute;#}
-            {#width: 40px;#}
-            {#height: 40px;#}
-            {#background-color: #3498db;#}
-            {#border-radius: 50%;#}
-            {#display: flex;#}
-            {#align-items: center;#}
-            {#justify-content: center;#}
-            {#color: white;#}
-            {#font-weight: bold;#}
-            {#cursor: pointer;#}
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interactive Grid</title>
+<style>
+  /* 样式化表格 */
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+  }
+  /* 拖动效果 */
+  .drag-source {
+    cursor: pointer;
+  }
+  .droppable {
+    border: 2px dashed #aaa;
+  }
+</style>
 </head>
 <body>
-    <div>
-        <label for="inputX">输入 X 值：</label>
-        <input type="number" id="inputX" min="1" value="5">
-        <button onclick="generateButtons()">生成按钮</button>
-    </div>
 
-    <div class="circle-container" id="circleContainer"></div>
+<h2>拖动项目到表格中</h2>
 
-    <script>
-        function generateButtons() {
-            const x = parseInt(document.getElementById('inputX').value);
-            const circleContainer = document.getElementById('circleContainer');
-            circleContainer.innerHTML = '';
+<div id="grid">
+  <table id="table">
+    <tr>
+      <td id="pos1"></td>
+      <td id="pos2"></td>
+      <td id="pos3"></td>
+      <td id="pos4"></td>
+    </tr>
+    <tr>
+      <td id="pos5"></td>
+      <td id="pos6"></td>
+      <td id="pos7"></td>
+      <td id="pos8"></td>
+    </tr>
+    <tr>
+      <td id="pos9"></td>
+      <td id="pos10"></td>
+      <td id="pos11"></td>
+      <td id="pos12"></td>
+    </tr>
+  </table>
+</div>
 
-            const radius = 80; // 环的半径
-            const centerX = 100; // 圆心 x 坐标
-            const centerY = 100; // 圆心 y 坐标
+<div id="options">
+  <div class="drag-source" draggable="true" id="option1">选项1</div>
+  <div class="drag-source" draggable="true" id="option2">选项2</div>
+  <div class="drag-source" draggable="true" id="option3">选项3</div>
+  <!-- 添加更多选项 -->
+</div>
 
-            for (let i = 0; i < x; i++) {
-                const angle = (i / x) * 2 * Math.PI; // 计算每个按钮的角度
-                const button = document.createElement('div');
-                button.className = 'circle-button';
-                button.style.left = centerX + radius * Math.sin(angle) - 20 + 'px';
-                button.style.top = centerY + radius * Math.cos(angle) - 20 + 'px';
-                button.textContent = i + 1;
-                circleContainer.appendChild(button);
-            }
-        }
-    </script>
+<script>
+  const options = document.querySelectorAll('.drag-source');
+  const cells = document.querySelectorAll('td');
+
+  options.forEach(option => {
+    option.addEventListener('dragstart', dragStart);
+  });
+
+  cells.forEach(cell => {
+    cell.addEventListener('dragover', dragOver);
+    cell.addEventListener('drop', drop);
+  });
+
+  let draggedItem = null;
+
+  function dragStart() {
+    draggedItem = this;
+    setTimeout(() => {
+      this.style.display = 'none';
+    }, 0);
+  }
+
+  function dragOver(e) {
+    e.preventDefault();
+  }
+
+  function drop() {
+    if (draggedItem !== null) {
+      this.append(draggedItem);
+      draggedItem.style.display = 'block';
+      draggedItem = null;
+    }
+  }
+
+  // 添加移除选项时的处理
+  options.forEach(option => {
+    option.addEventListener('dragend', dragEnd);
+  });
+
+  function dragEnd() {
+    if (draggedItem !== null) {
+      draggedItem.style.display = 'block';
+      draggedItem = null;
+    }
+  }
+</script>
+
+
 </body>
 </html>

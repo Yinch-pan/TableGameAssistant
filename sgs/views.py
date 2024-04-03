@@ -3,6 +3,7 @@ import time
 
 from django.shortcuts import render, redirect
 from sgs import models
+from .get_skills import *
 
 
 # Create your views here.
@@ -162,8 +163,10 @@ def tables(request):
 
 
 def addtable(request):
-    models.Table_Table.objects.create(randseed=time.time(), playernum=8, player_states=255)
-    return redirect('/sgs/tables')
+    models.Table_Table.objects.create(randseed=None, playernum=8, player_states=255)
+    tid=models.Table_Table.objects.last().id
+    print(tid)
+    return redirect(f'/sgs/tables/update?tableid={tid}&player_num=8&player_states=255')
 
 
 def updatetable(request):
@@ -175,7 +178,6 @@ def updatetable(request):
     models.Table_Table.objects.filter(id=tableid).all().update(playernum=playernum, player_states=player_states)
     player_states = int(player_states)
     playernum = int(playernum)
-    tabledata = models.Table_Table.objects.filter(id=tableid).first()
 
     player_states = int(player_states)
     lst1 = []
@@ -185,7 +187,7 @@ def updatetable(request):
             lst1.append(i + 1)
     lst2 = lst1.copy()
     lst3 = lst1.copy()
-    if len(lst1)>=4:
+    if len(lst1) >= 4:
         while True:
             random.shuffle(lst1)
             random.shuffle(lst2)
@@ -194,7 +196,8 @@ def updatetable(request):
                 if lst1[i] == lst2[i] or lst3[i] == lst2[i] or lst1[i] == lst3[i]:
                     break
             else:
-                res=' '.join([str(i) for i in lst1])+','+' '.join([str(i) for i in lst2])+','+' '.join([str(i) for i in lst3])
+                res = ' '.join([str(i) for i in lst1]) + ',' + ' '.join([str(i) for i in lst2]) + ',' + ' '.join(
+                    [str(i) for i in lst3])
                 models.Table_Table.objects.filter(id=tableid).all().update(randseed=res)
                 break
     return redirect(f'/sgs/tables/edittable?tableid={tableid}&player_num={playernum}&player_states={player_states}')
@@ -224,24 +227,64 @@ def edittable(request):
     for i in range(playernum):
         if ((player_states >> i) & 1) == 1:
             lst1.append(i + 1)
-    if len(lst1)<4:
+    if len(lst1) < 4:
         lst1 = []
         lst2 = []
         lst3 = []
         return render(request, 'edittable.html', {'tabledata': tabledata, "proatk": [lst1, lst2, lst3]})
-    # print(rsd)
-    # print(rsd.split(',')[0])
-    # print(len(lst1),rsd.split(',')[0])
-    if set(lst1)!=set([int(i) for i in rsd.split(',')[0].split()]):
+    if set(lst1) != set([int(i) for i in rsd.split(',')[0].split()]):
         return redirect(f'/sgs/tables/update?tableid={tableid}&player_num={playernum}&player_states={player_states}')
 
-    # models.Table_Table.objects.filter(id=tableid).all().update(randseed=res)
-    # print(rsd)
-    # print(random.randint(1,100))
-    # a=[1,2,3,4]
-    # random.shuffle(a)
-    # print(a)
-    lst1=[int(i) for i in rsd.split(',')[0].split()]
-    lst2=[int(i) for i in rsd.split(',')[1].split()]
-    lst3=[int(i) for i in rsd.split(',')[2].split()]
+    lst1 = [int(i) for i in rsd.split(',')[0].split()]
+    lst2 = [int(i) for i in rsd.split(',')[1].split()]
+    lst3 = [int(i) for i in rsd.split(',')[2].split()]
     return render(request, 'edittable.html', {'tabledata': tabledata, "proatk": [lst1, lst2, lst3]})
+
+
+def roledetail(request):
+    # img=open('./img/SP孙尚香.png',"rb").read()
+    return render(request, 'roledetail.html')
+
+
+def roleskills(request):
+    return render(request, 'roleskills.html')
+
+
+def skills(request):
+    allskills = models.Skills_Table.objects.all().order_by('skill_server')
+    return render(request, 'skills.html', {"allskills": allskills})
+
+
+def refreshskills(request):
+    # models.Skills_Table.objects.all().delete()
+    # thread_pool()
+    # addskill=[]
+    # for obj in models.Skills_Table.objects.all():
+    #     tmp=models.Skills_Table.objects.filter(skill_detail=obj.skill_detail,skill_name=obj.skill_name).all()
+    #     if len(tmp)!=0:
+    #         new_obj=models.Skills_Table(skill_detail=obj.skill_detail,skill_type=obj.skill_type,skill_name=obj.skill_name,skill_belong=',\n'.join(list(set([k.skill_belong for k in tmp]))),skill_server=',\n'.join(list(set([k.skill_server for k in tmp]))))
+    #         tmp.delete()
+    #         addskill.append(new_obj)
+    # for obj in addskill:
+    #     obj.save()
+    return redirect('/sgs/skills')
+
+
+def xushao(request):
+    t = request.GET.get('tag')
+    allskills = []
+    if t == '1':
+        allskills = models.Skills_Table.objects.filter(skill_detail__regex=".*?出牌阶段.*?(次{0,1})，.*?",
+                                                       skill_type='').order_by('?').all()
+    if t == '2':
+        allskills = models.Skills_Table.objects.filter(skill_detail__regex=".*?[^的]结束阶段，.*?",
+                                                       skill_type='').order_by('?').all()
+    if t == '3':
+        allskills = models.Skills_Table.objects.filter(skill_detail__regex=".*?当你受到.*?伤害.*?",
+                                                       skill_type='').order_by('?').all()
+
+    return render(request, 'xushao.html', {'allskills': allskills})
+
+
+def zuxunyou(request):
+    return render(request,'zuxunyou.html')

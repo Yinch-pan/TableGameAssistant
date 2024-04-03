@@ -4,8 +4,8 @@
 
 {% block container %}
     <div class="container" id='con'>
-
         <div>
+            <h2>当前的桌子ID:{{ tabledata.id }}</h2>
             <label for="inputX">输入一共多少人：</label>
             <input type="number" id="inputX" min="1" value="{{ tabledata.playernum }}">
             <a class="btn btn-primary" id="Sure" onclick=changenum()>确定</a>
