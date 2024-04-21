@@ -1,110 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Interactive Grid</title>
-<style>
-  /* 样式化表格 */
-  table {
-    border-collapse: collapse;
-    width: 100%;
-  }
-  td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: center;
-  }
-  /* 拖动效果 */
-  .drag-source {
-    cursor: pointer;
-  }
-  .droppable {
-    border: 2px dashed #aaa;
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dropdown Menu</title>
 </head>
 <body>
-
-<h2>拖动项目到表格中</h2>
-
-<div id="grid">
-  <table id="table">
-    <tr>
-      <td id="pos1"></td>
-      <td id="pos2"></td>
-      <td id="pos3"></td>
-      <td id="pos4"></td>
-    </tr>
-    <tr>
-      <td id="pos5"></td>
-      <td id="pos6"></td>
-      <td id="pos7"></td>
-      <td id="pos8"></td>
-    </tr>
-    <tr>
-      <td id="pos9"></td>
-      <td id="pos10"></td>
-      <td id="pos11"></td>
-      <td id="pos12"></td>
-    </tr>
-  </table>
-</div>
-
-<div id="options">
-  <div class="drag-source" draggable="true" id="option1">选项1</div>
-  <div class="drag-source" draggable="true" id="option2">选项2</div>
-  <div class="drag-source" draggable="true" id="option3">选项3</div>
-  <!-- 添加更多选项 -->
-</div>
-
-<script>
-  const options = document.querySelectorAll('.drag-source');
-  const cells = document.querySelectorAll('td');
-
-  options.forEach(option => {
-    option.addEventListener('dragstart', dragStart);
-  });
-
-  cells.forEach(cell => {
-    cell.addEventListener('dragover', dragOver);
-    cell.addEventListener('drop', drop);
-  });
-
-  let draggedItem = null;
-
-  function dragStart() {
-    draggedItem = this;
-    setTimeout(() => {
-      this.style.display = 'none';
-    }, 0);
-  }
-
-  function dragOver(e) {
-    e.preventDefault();
-  }
-
-  function drop() {
-    if (draggedItem !== null) {
-      this.append(draggedItem);
-      draggedItem.style.display = 'block';
-      draggedItem = null;
-    }
-  }
-
-  // 添加移除选项时的处理
-  options.forEach(option => {
-    option.addEventListener('dragend', dragEnd);
-  });
-
-  function dragEnd() {
-    if (draggedItem !== null) {
-      draggedItem.style.display = 'block';
-      draggedItem = null;
-    }
-  }
-</script>
-
-
+    <label for="cars">Choose a car:</label>
+    <select id="cars" name="cars">
+        <option value="volvo">Volvo</option>
+        <option value="saab">Saab</option>
+        <option value="fiat">Fiat</option>
+        <option value="audi">Audi</option>
+    </select>
 </body>
 </html>

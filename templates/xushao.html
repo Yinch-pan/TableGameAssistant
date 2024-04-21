@@ -16,6 +16,7 @@
                 <tr>
                     <th scope="col">技能名称</th>
                     <th scope="col">所属武将</th>
+{#                    <th scope="col">技能类型</th>#}
                     <th scope="col">所属服务器</th>
                     <th scope="col">技能描述</th>
                 </tr>
@@ -27,8 +28,10 @@
 {#                    <th scope="row"></th>#}
                     <td width="10%">{{ obj.skill_name }}</td>
                     <td width="10%">{{ obj.skill_belong }}</td>
+{#                    <td width="10%">{{ obj.skill_type }}</td>#}
+
                     <td width="10%">{{ obj.skill_server }}</td>
-                    <td width="70%">{{ obj.skill_detail }}</td>
+                    <td width="60%">{{ obj.skill_detail }}</td>
                 </tr>
                 {% endfor %}
                 </tbody>

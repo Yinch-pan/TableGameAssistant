@@ -5,15 +5,27 @@
 <div>
 
     <div class="container">
-        <ul class="list-group">
-        <li class="list-group-item"><a type="button" class="btn btn-success " href="/sgs/add">添加武将</a></li>
-            {% for obj in allrole %}
-                <li class="list-group-item">{{ obj.rolename }}
-                    <a type="button" class="btn btn-danger float-right" href="/sgs/delete?roleid={{ obj.id }}">删除</a>
-                    <a type="button" class="btn btn-primary float-right">编辑</a>
-                </li>
-            {% endfor %}
-        </ul>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">武将名称</th>
+                    <th scope="col">所属服务器</th>
+                    <th scope="col">详情</th>
+                    <th scope="col">详情</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                {% for obj in allrole %}
+                <tr>
+                    <td width="30%">{{ obj.skill_belong }}</td>
+                    <td width="40%">{{ obj.merged_col2_list }}</td>
+                    <td width="40%">{{ obj.tim }}</td>
+                    <td width="40%"><a class=" btn btn-primary">详情</a></td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
     <a type="button" class="btn btn-danger float-right" href="/sgs">返回</a>
 
     </div>

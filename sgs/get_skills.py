@@ -212,8 +212,6 @@ async def get_skill_detail(ser, skill_name):
         header = {'User-Agent': random.choice(user_list)}
         async with session.get(fa_url + ser + skill_name,headers=header) as skill_detail_c:
             skill_detail_resp=await skill_detail_c.text()
-            # print(skill_detail_resp)
-            # skill_detail_resp = requests.get(fa_url + ser + skill_name).text
             raw_skill_detail = re.search(skill_detail_pattern, skill_detail_resp).group('skde')
             skill_detail_type = re.search(skill_detail_type_pattern, skill_detail_resp)
             if skill_detail_type is not None:
@@ -246,14 +244,13 @@ async def get_sk(ser):
 #         await asyncio.sleep(0)
 #
 def main(ser):
-    # print(ser)
     asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
     asyncio.run(get_sk(ser))
 
 def thread_pool():
-    t1=time.time()
+    # t1=time.time()
     with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:
         for i in range(3):
             executor.submit(main, se[i])
-    t2=time.time()
-    print(t2-t1)
+    # t2=time.time()
+    # print(t2-t1)

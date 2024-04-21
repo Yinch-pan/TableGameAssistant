@@ -2,6 +2,8 @@ import random
 import time
 
 from django.shortcuts import render, redirect
+from django.db.models import Value, CharField,F
+from django.db.models.functions import Concat
 from sgs import models
 from .get_skills import *
 
@@ -21,8 +23,15 @@ def addrole(request):
 
 
 def rolenow(request):
-    allrole = models.Role_Table.objects.all()
-    return render(request, 'role.html', {'allrole': allrole})
+    result = models.Skills_Table.objects.values('skill_belong').distinct()
+
+    # print(result)
+    for obj in result[:10]:
+        print(obj['skill_belong'])
+        tmp=models.Skills_Table.objects.filter(skill_belong=obj['skill_belong']).values('skill_server')
+
+    # result = models.Skills_Table.objects.annotate(merged_col2=Concat('skill_server', Value(','), output_field=CharField()))
+    return render(request, 'role.html', {'allrole': result})
 
 
 def deleaterole(request):
@@ -164,8 +173,7 @@ def tables(request):
 
 def addtable(request):
     models.Table_Table.objects.create(randseed=None, playernum=8, player_states=255)
-    tid=models.Table_Table.objects.last().id
-    print(tid)
+    tid = models.Table_Table.objects.last().id
     return redirect(f'/sgs/tables/update?tableid={tid}&player_num=8&player_states=255')
 
 
@@ -267,6 +275,15 @@ def refreshskills(request):
     #         addskill.append(new_obj)
     # for obj in addskill:
     #     obj.save()
+
+    # type=['主公技，','觉醒技，','转换技，','锁定技，','限定技，','宗族技，','势力技，','主将技，','副将技，','使命技，','蓄力技，','阵法技，']
+    # for obj in models.Skills_Table.objects.all():
+    #     det=obj.skill_detail
+    #     types=[]
+    #     for j in type:
+    #         if j in det:
+    #             types.append(j)
+    #     models.Skills_Table.objects.filter(id=obj.id).update(skill_type=''.join(types).rstrip('，'))
     return redirect('/sgs/skills')
 
 
@@ -287,4 +304,4 @@ def xushao(request):
 
 
 def zuxunyou(request):
-    return render(request,'zuxunyou.html')
+    return render(request, 'zuxunyou.html')

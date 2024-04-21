@@ -1,9 +1,17 @@
 
 
 {% extends 'navbar.html' %}
+{% block header %}
+    <style>
+        th {
+            text-align: center; /* 将<th>元素中的内容水平居中 */
+        }
+    </style>
+
+{% endblock %}
 {% block container %}
     <div class="container">
-        <table class="table" style="table-layout: fixed">
+        <table class="table parent" style="table-layout: fixed">
             <thead>
             <tr>
                 <th scope="col"></th>
@@ -38,48 +46,192 @@
             <tbody>
             <tr>
                 <th scope="row">基本牌</th>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td><select class="btn btn-light">
+                    <option></option>
+                    <option>南蛮入侵</option>
+                    <option>万箭齐发</option>
+                    <option>五谷丰登</option>
+                    <option>桃园结义</option>
+                    <option>过河拆桥</option>
+                    <option>顺手牵羊</option>
+                    <option>无中生有</option>
+                    <option>无懈可击</option>
+                    <option>借刀杀人</option>
+                    <option>铁索连环</option>
+                    <option>火攻</option>
+                    <option>决斗</option>
+                </select></td>
+                <td><select class="btn btn-light">
+                    <option></option>
+                    <option>南蛮入侵</option>
+                    <option>万箭齐发</option>
+                    <option>五谷丰登</option>
+                    <option>桃园结义</option>
+                    <option>过河拆桥</option>
+                    <option>顺手牵羊</option>
+                    <option>无中生有</option>
+                    <option>无懈可击</option>
+                    <option>借刀杀人</option>
+                    <option>铁索连环</option>
+                    <option>火攻</option>
+                    <option>决斗</option>
+                </select></td>
+                <td><select class="btn btn-light">
+                    <option></option>
+                    <option>南蛮入侵</option>
+                    <option>万箭齐发</option>
+                    <option>五谷丰登</option>
+                    <option>桃园结义</option>
+                    <option>过河拆桥</option>
+                    <option>顺手牵羊</option>
+                    <option>无中生有</option>
+                    <option>无懈可击</option>
+                    <option>借刀杀人</option>
+                    <option>铁索连环</option>
+                    <option>火攻</option>
+                    <option>决斗</option>
+                </select></td>
+                <td><select class="btn btn-light">
+                    <option></option>
+                    <option>南蛮入侵</option>
+                    <option>万箭齐发</option>
+                    <option>五谷丰登</option>
+                    <option>桃园结义</option>
+                    <option>过河拆桥</option>
+                    <option>顺手牵羊</option>
+                    <option>无中生有</option>
+                    <option>无懈可击</option>
+                    <option>借刀杀人</option>
+                    <option>铁索连环</option>
+                    <option>火攻</option>
+                    <option>决斗</option>
+                </select></td>
             </tr>
             <tr>
-                <th scope="row" >锦囊牌</th>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <th scope="row">锦囊牌</th>
+                <td><select class="btn btn-light">
+                    <option></option>
+                    <option>南蛮入侵</option>
+                    <option>万箭齐发</option>
+                    <option>五谷丰登</option>
+                    <option>桃园结义</option>
+                    <option>过河拆桥</option>
+                    <option>顺手牵羊</option>
+                    <option>无中生有</option>
+                    <option>无懈可击</option>
+                    <option>借刀杀人</option>
+                    <option>铁索连环</option>
+                    <option>火攻</option>
+                    <option>决斗</option>
+                </select></td>
+                <td><select class="btn btn-light">
+                    <option></option>
+                    <option>南蛮入侵</option>
+                    <option>万箭齐发</option>
+                    <option>五谷丰登</option>
+                    <option>桃园结义</option>
+                    <option>过河拆桥</option>
+                    <option>顺手牵羊</option>
+                    <option>无中生有</option>
+                    <option>无懈可击</option>
+                    <option>借刀杀人</option>
+                    <option>铁索连环</option>
+                    <option>火攻</option>
+                    <option>决斗</option>
+                </select></td>
+                <td><select class="btn btn-light">
+                    <option></option>
+                    <option>南蛮入侵</option>
+                    <option>万箭齐发</option>
+                    <option>五谷丰登</option>
+                    <option>桃园结义</option>
+                    <option>过河拆桥</option>
+                    <option>顺手牵羊</option>
+                    <option>无中生有</option>
+                    <option>无懈可击</option>
+                    <option>借刀杀人</option>
+                    <option>铁索连环</option>
+                    <option>火攻</option>
+                    <option>决斗</option>
+                </select></td>
+                <td><select class="btn btn-light">
+                    <option></option>
+                    <option>南蛮入侵</option>
+                    <option>万箭齐发</option>
+                    <option>五谷丰登</option>
+                    <option>桃园结义</option>
+                    <option>过河拆桥</option>
+                    <option>顺手牵羊</option>
+                    <option>无中生有</option>
+                    <option>无懈可击</option>
+                    <option>借刀杀人</option>
+                    <option>铁索连环</option>
+                    <option>火攻</option>
+                    <option>决斗</option>
+                </select></td>
             </tr>
             <tr>
                 <th scope="row">装备牌</th>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-
-            <tr>
-                <th scope="row" width="20%"></th>
-                <td><div class="drag-source" draggable="true">南蛮入侵</div></td>
-                <td><div class="drag-source" draggable="true">万箭齐发</div></td>
-                <td><div class="drag-source" draggable="true">五谷丰登</div></td>
-                <td><div class="drag-source" draggable="true">桃园结义</div></td>
-            </tr>
-
-            <tr>
-                <th scope="row" width="20%"></th>
-                <td><div class="drag-source" draggable="true">决斗</div></td>
-                <td><div class="drag-source" draggable="true">火攻</div></td>
-                <td><div class="drag-source" draggable="true">借刀杀人</div></td>
-                <td><div class="drag-source" draggable="true">铁索连环</div></td>
-            </tr>
-
-            <tr>
-                <th scope="row" width="20%"></th>
-                <td><div class="drag-source" draggable="true">顺手牵羊</div></td>
-                <td><div class="drag-source" draggable="true">过河拆桥</div></td>
-                <td><div class="drag-source" draggable="true">无中生有</div></td>
-                <td><div class="drag-source" draggable="true">无懈可击</div></td>
+                <td><select class="btn btn-light">
+                    <option></option>
+                    <option>南蛮入侵</option>
+                    <option>万箭齐发</option>
+                    <option>五谷丰登</option>
+                    <option>桃园结义</option>
+                    <option>过河拆桥</option>
+                    <option>顺手牵羊</option>
+                    <option>无中生有</option>
+                    <option>无懈可击</option>
+                    <option>借刀杀人</option>
+                    <option>铁索连环</option>
+                    <option>火攻</option>
+                    <option>决斗</option>
+                </select></td>
+                <td><select class="btn btn-light">
+                    <option></option>
+                    <option>南蛮入侵</option>
+                    <option>万箭齐发</option>
+                    <option>五谷丰登</option>
+                    <option>桃园结义</option>
+                    <option>过河拆桥</option>
+                    <option>顺手牵羊</option>
+                    <option>无中生有</option>
+                    <option>无懈可击</option>
+                    <option>借刀杀人</option>
+                    <option>铁索连环</option>
+                    <option>火攻</option>
+                    <option>决斗</option>
+                </select></td>
+                <td><select class="btn btn-light">
+                    <option></option>
+                    <option>南蛮入侵</option>
+                    <option>万箭齐发</option>
+                    <option>五谷丰登</option>
+                    <option>桃园结义</option>
+                    <option>过河拆桥</option>
+                    <option>顺手牵羊</option>
+                    <option>无中生有</option>
+                    <option>无懈可击</option>
+                    <option>借刀杀人</option>
+                    <option>铁索连环</option>
+                    <option>火攻</option>
+                    <option>决斗</option>
+                </select></td>
+                <td><select class="btn btn-light">
+                    <option></option>
+                    <option>南蛮入侵</option>
+                    <option>万箭齐发</option>
+                    <option>五谷丰登</option>
+                    <option>桃园结义</option>
+                    <option>过河拆桥</option>
+                    <option>顺手牵羊</option>
+                    <option>无中生有</option>
+                    <option>无懈可击</option>
+                    <option>借刀杀人</option>
+                    <option>铁索连环</option>
+                    <option>火攻</option>
+                    <option>决斗</option>
+                </select></td>
             </tr>
 
 
@@ -89,55 +241,5 @@
 
 
 
-
-
-
-
-    <script>
-        const options = document.querySelectorAll('.drag-source');
-        const cells = document.querySelectorAll('td');
-
-        options.forEach(option => {
-            option.addEventListener('dragstart', dragStart);
-        });
-
-        cells.forEach(cell => {
-            cell.addEventListener('dragover', dragOver);
-            cell.addEventListener('drop', drop);
-        });
-
-        let draggedItem = null;
-
-        function dragStart() {
-            draggedItem = this;
-            setTimeout(() => {
-                this.style.display = 'none';
-            }, 0);
-        }
-
-        function dragOver(e) {
-            e.preventDefault();
-        }
-
-        function drop() {
-            if (draggedItem !== null) {
-                this.append(draggedItem);
-                draggedItem.style.display = 'block';
-                draggedItem = null;
-            }
-        }
-
-        // 添加移除选项时的处理
-        options.forEach(option => {
-            option.addEventListener('dragend', dragEnd);
-        });
-
-        function dragEnd() {
-            if (draggedItem !== null) {
-                draggedItem.style.display = 'block';
-                draggedItem = null;
-            }
-        }
-    </script>
 
 {% endblock %}
