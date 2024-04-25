@@ -10,6 +10,11 @@ from .get_skills import *
 
 # Create your views here.
 def randomrole(request):
+    a=models.Skills_Table.objects.values_list('skill_belong',flat=True).distinct()
+    models.Role_Table.objects.all().delete()
+    for i in a:
+        models.Role_Table.objects.create(rolename=i)
+    # print(a)
 
     return render(request, 'test.html')
 
