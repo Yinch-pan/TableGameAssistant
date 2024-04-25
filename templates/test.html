@@ -1,17 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dropdown Menu</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Toggle Button</title>
+<script>
+function toggleOperation() {
+    var addButton = document.getElementById('addButton');
+    var multiplyButton = document.getElementById('multiplyButton');
+    var resultDisplay = document.getElementById('result');
+
+    if (addButton.style.display === 'none') {
+        addButton.style.display = 'inline-block';
+        multiplyButton.style.display = 'none';
+        resultDisplay.textContent = 'Addition';
+    } else {
+        addButton.style.display = 'none';
+        multiplyButton.style.display = 'inline-block';
+        resultDisplay.textContent = 'Multiplication';
+    }
+}
+</script>
 </head>
 <body>
-    <label for="cars">Choose a car:</label>
-    <select id="cars" name="cars">
-        <option value="volvo">Volvo</option>
-        <option value="saab">Saab</option>
-        <option value="fiat">Fiat</option>
-        <option value="audi">Audi</option>
-    </select>
+<button id="addButton" onclick="toggleOperation()">+</button>
+<button id="multiplyButton" style="display:none" onclick="toggleOperation()">×</button>
+<p id="result">Addition</p>
 </body>
 </html>

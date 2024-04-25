@@ -2,7 +2,7 @@ import random
 import time
 
 from django.shortcuts import render, redirect
-from django.db.models import Value, CharField,F
+from django.db.models import Value, CharField, F
 from django.db.models.functions import Concat
 from sgs import models
 from .get_skills import *
@@ -10,6 +10,7 @@ from .get_skills import *
 
 # Create your views here.
 def randomrole(request):
+
     return render(request, 'test.html')
 
 
@@ -28,7 +29,7 @@ def rolenow(request):
     # print(result)
     for obj in result[:10]:
         print(obj['skill_belong'])
-        tmp=models.Skills_Table.objects.filter(skill_belong=obj['skill_belong']).values('skill_server')
+        tmp = models.Skills_Table.objects.filter(skill_belong=obj['skill_belong']).values('skill_server')
 
     # result = models.Skills_Table.objects.annotate(merged_col2=Concat('skill_server', Value(','), output_field=CharField()))
     return render(request, 'role.html', {'allrole': result})
@@ -260,7 +261,32 @@ def roleskills(request):
 
 def skills(request):
     allskills = models.Skills_Table.objects.all().order_by('skill_server')
-    return render(request, 'skills.html', {"allskills": allskills})
+    sb = request.POST.get('sb')
+    ss = request.POST.get('ss')
+    st = request.POST.get('st')
+    sn = request.POST.get('sn')
+    sd = request.POST.get('sd')
+    if sb is not None:
+        allskills = allskills.filter(skill_belong__regex=sb).order_by().all()
+    else:
+        sb = ''
+    if ss is not None:
+        allskills = allskills.filter(skill_server__regex=ss).order_by().all()
+    else:
+        ss = ''
+    if st is not None:
+        allskills = allskills.filter(skill_type__regex=st).order_by().all()
+    else:
+        st = ''
+    if sn is not None:
+        allskills = allskills.filter(skill_name__regex=sn).order_by().all()
+    else:
+        sn = ''
+    if sd is not None:
+        allskills = allskills.filter(skill_detail__regex=sd).order_by().all()
+    else:
+        sd = ''
+    return render(request, f'skills.html', {"allskills": allskills, 'ss': ss, 'sb': sb, 'sn': sn, 'st': st, 'sd': sd})
 
 
 def refreshskills(request):
@@ -300,8 +326,25 @@ def xushao(request):
         allskills = models.Skills_Table.objects.filter(skill_detail__regex=".*?当你受到.*?伤害.*?",
                                                        skill_type='').order_by('?').all()
 
-    return render(request, 'xushao.html', {'allskills': allskills})
+    return render(request, 'xushao.html', {'allskills': allskills[:3]})
 
 
 def zuxunyou(request):
     return render(request, 'zuxunyou.html')
+
+
+def caoxi(request):
+    return render(request, 'caoxi.html')
+
+
+def zhongyan(request):
+    allskills = models.Skills_Table.objects.filter(skill_detail__regex=".*?出牌阶段.*?(次{0,1})，.*?",
+                                                   skill_type='').order_by('?').all()
+
+    # allskills = models.Skills_Table.objects.all()
+    # allskills = allskills.filter(skill_server="十周年").order_by('?').all()
+    # allskills = allskills.filter(skill_detail__regex="X").order_by('?').all()
+    # allskills = allskills.filter(skill_detail__regex="弃牌阶段").order_by('?').all()
+    # allskills = allskills.filter(skill_detail__regex="判定").order_by('?').all()
+    # allskills = allskills.filter(skill_detail__regex="造成伤害").order_by('?').all()
+    return render(request, 'zhongyan.html', {'allskills': allskills})

@@ -1,0 +1,122 @@
+
+
+{% extends 'navbar.html' %}
+{% block header %}
+
+{% endblock %}
+{% block container %}
+    <div class="container">
+        <h1>谏旋</h1>
+
+
+        <ul class="list-group" id="widgetContainer">
+            <li class="list-group-item"><a>锁定技，当你使用牌或受到伤害后，你令你以下一项数值</a>
+                <a class='btn btn-secondary' id="addButton" onclick="toggleOperation()">+</a>
+                <a class='btn btn-secondary' id="multiplyButton" style="display:none" onclick="toggleOperation()">×</a>
+                <a id="countDisplay">1</a>
+                <a class="btn btn-primary" onclick="increment()">+</a>
+                <a class="btn btn-primary" onclick="decrement()">-</a>
+
+                <a>直到的下回合结束</a>
+            </li>
+
+
+        </ul>
+        <a href="../roleskills" class="btn btn-danger float-right">返回</a>
+    </div>
+    <script>
+    var count = 1;
+
+function increment() {
+    count++;
+    document.getElementById('countDisplay').innerText = count;
+}
+
+function decrement() {
+    count--;
+    document.getElementById('countDisplay').innerText = count;
+}
+
+
+        function toggleOperation() {
+            var addButton = document.getElementById('addButton');
+            var multiplyButton = document.getElementById('multiplyButton');
+
+            if (addButton.style.display === 'none') {
+                addButton.style.display = 'inline-block';
+                multiplyButton.style.display = 'none';
+            } else {
+                addButton.style.display = 'none';
+                multiplyButton.style.display = 'inline-block';
+            }
+        }
+
+        // 创建独立的计数器变量
+        var counterIds = [0, 0, 0,0]
+        var names = ['攻击范围', '摸牌阶段摸牌数', '出牌结算使用杀的次数限制']
+        // 动态生成部件
+        var container = document.getElementById('widgetContainer');
+
+        names.forEach(function (na, index) {
+            var li = document.createElement('li');
+            li.classList.add('list-group-item');
+
+            var button = document.createElement('a');
+            {#button.classList.add('btn', 'btn-primary', 'btn-lg', 'active');#}
+            button.setAttribute('role', 'button');
+            button.id = 'button' + (index);
+            button.textContent = names[index];
+            button.onclick = function () {
+                toggleColor(button.id);
+            };
+
+            var counterDiv = document.createElement('div');
+            counterDiv.classList.add('counter', 'float-right');
+
+            var buttonPlus = document.createElement('button');
+            buttonPlus.classList.add('btn', 'btn-primary');
+            buttonPlus.textContent = '+';
+            buttonPlus.onclick = function () {
+                updateCounter(index, true);
+            };
+
+            var counterSpan = document.createElement('span');
+            counterSpan.classList.add('btn', 'btn-light');
+            counterSpan.id = index;
+            counterSpan.textContent = '0';
+
+            var buttonMinus = document.createElement('button');
+            buttonMinus.classList.add('btn', 'btn-primary');
+            buttonMinus.textContent = '-';
+            buttonMinus.onclick = function () {
+                updateCounter(index, false);
+            };
+
+            counterDiv.appendChild(buttonPlus);
+            counterDiv.appendChild(counterSpan);
+            counterDiv.appendChild(buttonMinus);
+
+            li.appendChild(button);
+            li.appendChild(counterDiv);
+
+            container.appendChild(li);
+        });
+
+
+        function updateCounter(counterId, increment) {
+            // 获取计数器元素
+            var counterElement = document.getElementById(counterId);
+            // 更新计数器值
+            if (increment) {
+                counterIds[counterId]++;
+            } else {
+                counterIds[counterId]--;
+            }
+
+            // 显示更新后的值
+            counterElement.textContent = counterIds[counterId];
+        }
+
+
+    </script>
+{% endblock %}

@@ -5,27 +5,50 @@
     <div>
 
         <div class="container">
+
+
             <table class="table table-striped">
+                <form class="form-inline my-2 my-lg-0" method="post">
+                    {% csrf_token %}
+
                 <thead>
                 <tr>
                     <th scope="col">技能名称</th>
                     <th scope="col">所属武将</th>
                     <th scope="col">所属服务器</th>
                     <th scope="col">技能类型</th>
-                    <th scope="col">技能描述</th>
+                    <th scope="col">技能描述 <button class="btn btn-outline-success my-2 my-sm-0 float-right"  type="submit">搜索</button></th>
+
                 </tr>
                 </thead>
 
                 <tbody>
+
+                    <tr>
+                        <td width="10%"><input type="text" class="form-control" id="sn" name="sn" value={{ sn }}>
+                        </td>
+                        <td width="10%"><input type="text" class="form-control" id="sb" name="sb" value={{ sb }}>
+                        </td>
+                        <td width="10%"><input type="text" class="form-control" id="ss" name="ss" value={{ ss }}>
+                        </td>
+                        <td width="10%"><input type="text" class="form-control" id="st" name="st" value={{ st }}>
+                        </td>
+                        <td width="60%"><input type="text" class="form-control" id="sd" name="sd" value={{ sd }}>
+
+                        </td>
+                    </tr>
+                </form>
+
+
                 {% for obj in allskills %}
-                <tr>
-{#                    <th scope="row"></th>#}
-                    <td width="10%">{{ obj.skill_name }}</td>
-                    <td width="10%">{{ obj.skill_belong }}</td>
-                    <td width="10%">{{ obj.skill_server }}</td>
-                    <td width="10%">{{ obj.skill_type }}</td>
-                    <td width="60%">{{ obj.skill_detail }}</td>
-                </tr>
+                    <tr>
+                        {#                    <th scope="row"></th>#}
+                        <td width="10%">{{ obj.skill_name }}</td>
+                        <td width="10%">{{ obj.skill_belong }}</td>
+                        <td width="10%">{{ obj.skill_server }}</td>
+                        <td width="10%">{{ obj.skill_type }}</td>
+                        <td width="60%">{{ obj.skill_detail }}</td>
+                    </tr>
                 {% endfor %}
                 </tbody>
             </table>
