@@ -47,6 +47,7 @@ urlpatterns = [
     path('faceas/roleskills/zuxunyou', views.zuxunyou),
     path('faceas/roleskills/caoxi', views.caoxi),
     path('faceas/roleskills/zhongyan', views.zhongyan),
+    path('faceas/roleskills/wuyi', views.wuyi),
     path('faceas', views.faceas),
 
 
