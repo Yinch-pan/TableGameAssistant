@@ -10,7 +10,7 @@ from .get_skills import *
 
 # Create your views here.
 def randomrole(request):
-    a=models.Skills_Table.objects.values_list('skill_belong',flat=True).distinct()
+    a = models.Skills_Table.objects.values_list('skill_belong', flat=True).distinct()
     models.Role_Table.objects.all().delete()
     for i in a:
         models.Role_Table.objects.create(rolename=i)
@@ -29,12 +29,14 @@ def addrole(request):
 
 
 def rolenow(request):
-    result = models.Skills_Table.objects.values('skill_belong').distinct()
-
+    result = models.Skills_Table.objects.values_list('skill_belong', 'skill_server').distinct()
     # print(result)
-    for obj in result[:10]:
-        print(obj['skill_belong'])
-        tmp = models.Skills_Table.objects.filter(skill_belong=obj['skill_belong']).values('skill_server')
+    # for l in result:
+    #     print(l)
+    # print(result)
+    # for obj in result:
+    # print(obj['skill_belong'])
+    # tmp = models.Skills_Table.objects.filter(skill_belong=obj['skill_belong']).values('skill_server')
 
     # result = models.Skills_Table.objects.annotate(merged_col2=Concat('skill_server', Value(','), output_field=CharField()))
     return render(request, 'role.html', {'allrole': result})
@@ -255,10 +257,10 @@ def edittable(request):
     return render(request, 'edittable.html', {'tabledata': tabledata, "proatk": [lst1, lst2, lst3]})
 
 
-def roledetail(request):
-    # img=open('./img/SP孙尚香.png',"rb").read()
-    return render(request, 'roledetail.html')
-
+# def roledetail(request):
+#     img=open('./img/SP孙尚香.png',"rb").read()
+# return render(request, 'roledetail.html')
+#
 
 def roleskills(request):
     return render(request, 'roleskills.html')
@@ -271,6 +273,8 @@ def skills(request):
     st = request.POST.get('st')
     sn = request.POST.get('sn')
     sd = request.POST.get('sd')
+    action = request.POST.get('btn')
+    # print(action)
     if sb is not None:
         allskills = allskills.filter(skill_belong__regex=sb).order_by().all()
     else:
@@ -291,7 +295,13 @@ def skills(request):
         allskills = allskills.filter(skill_detail__regex=sd).order_by().all()
     else:
         sd = ''
-    return render(request, f'skills.html', {"allskills": allskills, 'ss': ss, 'sb': sb, 'sn': sn, 'st': st, 'sd': sd})
+    if action == 'al':
+        return render(request, 'skills.html',
+                      {"allskills": allskills, 'ss': ss, 'sb': sb, 'sn': sn, 'st': st, 'sd': sd})
+    if action == 'si':
+        allskills=allskills.order_by('?')[:1]
+        return render(request, 'skills.html',
+                      {"allskills": allskills, 'ss': ss, 'sb': sb, 'sn': sn, 'st': st, 'sd': sd})
 
 
 def refreshskills(request):
@@ -353,3 +363,13 @@ def zhongyan(request):
     # allskills = allskills.filter(skill_detail__regex="判定").order_by('?').all()
     # allskills = allskills.filter(skill_detail__regex="造成伤害").order_by('?').all()
     return render(request, 'zhongyan.html', {'allskills': allskills})
+
+
+def role_detail(request):
+    ser = request.GET.get('ser')
+    name = request.GET.get('name')
+    server = ''
+    if ser == '十周年': server = 'sgs'
+    if ser == 'online': server = 'sgsol'
+    if ser == '移动版': server = 'msgs'
+    return redirect(f'https://wiki.biligame.com/{server}/{name}')

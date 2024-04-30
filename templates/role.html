@@ -10,7 +10,8 @@
                 <tr>
                     <th scope="col">武将名称</th>
                     <th scope="col">所属服务器</th>
-                    <th scope="col">详情</th>
+                    <th scope="col">势力</th>
+                    <th scope="col">性别</th>
                     <th scope="col">详情</th>
                 </tr>
                 </thead>
@@ -18,10 +19,11 @@
                 <tbody>
                 {% for obj in allrole %}
                 <tr>
-                    <td width="30%">{{ obj.skill_belong }}</td>
-                    <td width="40%">{{ obj.merged_col2_list }}</td>
-                    <td width="40%">{{ obj.tim }}</td>
-                    <td width="40%"><a class=" btn btn-primary">详情</a></td>
+                    <td width="20%">{{ obj.0 }}</td>
+                    <td width="20%">{{ obj.1 }}</td>
+                    <td width="20%">{{ obj.tim }}</td>
+                    <td width="20%">{{ obj.tim }}</td>
+                    <td width="20%"><a class=" btn btn-primary" href="./role/role_detail?name={{ obj.0 }}&ser={{ obj.1 }}">详情</a></td>
                 </tr>
                 {% endfor %}
                 </tbody>

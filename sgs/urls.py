@@ -22,7 +22,8 @@ urlpatterns = [
     path('random', views.randomrole),
     path('add', views.addrole),
     path('role', views.rolenow),
-    path('role/detail', views.roledetail),
+    path('role/role_detail', views.role_detail),
+
     path('delete', views.deleaterole),
     path('addset', views.addroleset),
     path('deltmprole', views.deltmprole),
