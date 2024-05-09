@@ -302,10 +302,10 @@ def skills(request):
         if x.isdigit():
             allskills = allskills.order_by('?')[:int(x)]
         return render(request, 'skills.html',
-                      {"allskills": allskills, 'ss': ss, 'sb': sb, 'sn': sn, 'st': st, 'sd': sd,'X':x})
+                      {"allskills": allskills, 'ss': ss, 'sb': sb, 'sn': sn, 'st': st, 'sd': sd, 'X': x})
 
     return render(request, 'skills.html',
-                  {"allskills": allskills, 'ss': ss, 'sb': sb, 'sn': sn, 'st': st, 'sd': sd,'X':'X'})
+                  {"allskills": allskills, 'ss': ss, 'sb': sb, 'sn': sn, 'st': st, 'sd': sd, 'X': 'X'})
 
 
 def refreshskills(request):
@@ -320,11 +320,12 @@ def refreshskills(request):
     #         addskill.append(new_obj)
     # for obj in addskill:
     #     obj.save()
-
-    # type=['主公技，','觉醒技，','转换技，','锁定技，','限定技，','宗族技，','势力技，','主将技，','副将技，','使命技，','蓄力技，','阵法技，']
+    #
+    # type = ['主公技，', '觉醒技，', '转换技，', '锁定技，', '限定技，', '宗族技，', '势力技，', '主将技，', '副将技，',
+    #         '使命技，', '蓄力技，', '阵法技，']
     # for obj in models.Skills_Table.objects.all():
-    #     det=obj.skill_detail
-    #     types=[]
+    #     det = obj.skill_detail
+    #     types = []
     #     for j in type:
     #         if j in det:
     #             types.append(j)
@@ -338,11 +339,13 @@ def xushao(request):
     if t == '1':
         allskills = models.Skills_Table.objects.filter(skill_detail__regex=".*?出牌阶段.*?(次{0,1})，.*?",
                                                        skill_type='').order_by('?').all()
+        allskills = allskills.exclude(skill_detail__regex="出牌阶段[开始|结束]",
+                                      skill_type='').order_by('?').all()
     if t == '2':
         allskills = models.Skills_Table.objects.filter(skill_detail__regex=".*?[^的]结束阶段，.*?",
                                                        skill_type='').order_by('?').all()
     if t == '3':
-        allskills = models.Skills_Table.objects.filter(skill_detail__regex=".*?当你受到.*?伤害.*?",
+        allskills = models.Skills_Table.objects.filter(skill_detail__regex=".*?当你受到.*?伤害后.*?",
                                                        skill_type='').order_by('?').all()
 
     return render(request, 'xushao.html', {'allskills': allskills[:3]})
@@ -355,12 +358,63 @@ def zuxunyou(request):
 def caoxi(request):
     return render(request, 'caoxi.html')
 
+def shensunquan(request):
+    lst=['制衡','缔盟','安恤','秉壹','慎行','兴学','安国','诫训','下书','弘援','澜疆','诱敌','观微','调度','弼政']
+    lst2=['界孙权','鲁肃','步练师','顾雍','孙休','朱治','薛综','阚泽','诸葛瑾','吾彦','周鲂','潘濬','吕范','孙邵']
+    allskills = models.Skills_Table.objects.filter(skill_name__in=lst,skill_belong__in=lst2,
+                                                   skill_type='',skill_server='online').order_by('?').all()
+    sb = request.POST.get('sb')
+    ss = request.POST.get('ss')
+    st = request.POST.get('st')
+    sn = request.POST.get('sn')
+    sd = request.POST.get('sd')
+    action = request.POST.get('btn')
+    x = request.POST.get('X')
+    # print(action)
+    if sb is not None:
+        allskills = allskills.filter(skill_belong__regex=sb).order_by().all()
+    else:
+        sb = ''
+    if ss is not None:
+        allskills = allskills.filter(skill_server__regex=ss).order_by().all()
+    else:
+        ss = ''
+    if st is not None:
+        allskills = allskills.filter(skill_type__regex=st).order_by().all()
+    else:
+        st = ''
+    if sn is not None:
+        allskills = allskills.filter(skill_name__regex=sn).order_by().all()
+    else:
+        sn = ''
+    if sd is not None:
+        allskills = allskills.filter(skill_detail__regex=sd).order_by().all()
+    else:
+        sd = ''
+
+    if action == 'si':
+        if x.isdigit():
+            allskills = allskills.order_by('?')[:int(x)]
+        return render(request, 'shensunquan.html',
+                      {"allskills": allskills, 'ss': ss, 'sb': sb, 'sn': sn, 'st': st, 'sd': sd, 'X': x})
+
+    return render(request, 'shensunquan.html',
+                  {"allskills": allskills, 'ss': ss, 'sb': sb, 'sn': sn, 'st': st, 'sd': sd, 'X': 'X'})
+
+
 def wuyi(request):
-    lst=['肉林', '武继', '突袭', '突袭', '清侧', '图射', '纵反', '设伏', '离间', '夺锐', '止啼', '诱敌', '断发', '遗礼', '明策', '明策', '决堰', '怀柔', '集智', '亦算', '亦算', '激将', '化归', '献图', '献图', '天妒', '悯泽', '称象', '称象', '武娘', '存畏', '清谈', '权谋', '圮秩', '绡舞', '凶疑', '勇略', '散谣', '散谣', '义绝', '反间', '反间', '贞良', '贞良', '空城', '空城', '违忤', '违忤', '力激', '纵反', '利驭', '无双', '无双', '权计', '权计', '荐言', '荐言', '夺锐', '奇制', '绝策', '绝策', '奇策', '奇策', '怠宴', '饰非', '饰非', '肆军', '决堰', '亦算', '心幽', '修文', '狂风', '芳妒', '称象', '称象', '破锐', '破垣', '归命', '勇进', '征南', '颂词', '断肠', '擎北', '清谈', '奇径', '镇骨', '绡刃', '设学', '魄袭', '覆斗', '伏间', '伏间']
+    lst = ['肉林', '武继', '突袭', '突袭', '清侧', '图射', '纵反', '设伏', '离间', '夺锐', '止啼', '诱敌', '断发',
+           '遗礼', '明策', '明策', '决堰', '怀柔', '集智', '亦算', '亦算', '激将', '化归', '献图', '献图', '天妒',
+           '悯泽', '称象', '称象', '武娘', '存畏', '清谈', '权谋', '圮秩', '绡舞', '凶疑', '勇略', '散谣', '散谣',
+           '义绝', '反间', '反间', '贞良', '贞良', '空城', '空城', '违忤', '违忤', '力激', '纵反', '利驭', '无双',
+           '无双', '权计', '权计', '荐言', '荐言', '夺锐', '奇制', '绝策', '绝策', '奇策', '奇策', '怠宴', '饰非',
+           '饰非', '肆军', '决堰', '亦算', '心幽', '修文', '狂风', '芳妒', '称象', '称象', '破锐', '破垣', '归命',
+           '勇进', '征南', '颂词', '断肠', '擎北', '清谈', '奇径', '镇骨', '绡刃', '设学', '魄袭', '覆斗', '伏间',
+           '伏间']
     # print(lst)
 
     allskills = models.Skills_Table.objects.filter(skill_name__in=lst,
-                                                   skill_type='').order_by('?').all()
+                                                   skill_type='',skill_server='十周年').order_by('?').all()
     sb = request.POST.get('sb')
     ss = request.POST.get('ss')
     st = request.POST.get('st')
@@ -394,17 +448,20 @@ def wuyi(request):
         if x.isdigit():
             allskills = allskills.order_by('?')[:int(x)]
         return render(request, 'wuyi.html',
-                      {"allskills": allskills, 'ss': ss, 'sb': sb, 'sn': sn, 'st': st, 'sd': sd,'X':x})
+                      {"allskills": allskills, 'ss': ss, 'sb': sb, 'sn': sn, 'st': st, 'sd': sd, 'X': x})
 
     return render(request, 'wuyi.html',
-                  {"allskills": allskills, 'ss': ss, 'sb': sb, 'sn': sn, 'st': st, 'sd': sd,'X':'X'})
+                  {"allskills": allskills, 'ss': ss, 'sb': sb, 'sn': sn, 'st': st, 'sd': sd, 'X': 'X'})
 
     # return render(request, 'wuyi.html', {'allskills': allskills})
 
 
 def zhongyan(request):
-    allskills = models.Skills_Table.objects.filter(skill_detail__regex=".*?出牌阶段.*?(次{0,1})，.*?",
+    allskills = models.Skills_Table.objects.filter(skill_detail__regex="^.{0,2}出牌阶段.*?(次{0,1})，.*?",
                                                    skill_type='').order_by('?').all()
+    allskills = allskills.exclude(skill_detail__regex="出牌阶段[开始|结束]",
+                                                   skill_type='').order_by('?').all()
+
 
     # allskills = models.Skills_Table.objects.all()
     # allskills = allskills.filter(skill_server="十周年").order_by('?').all()
@@ -412,10 +469,7 @@ def zhongyan(request):
     # allskills = allskills.filter(skill_detail__regex="弃牌阶段").order_by('?').all()
     # allskills = allskills.filter(skill_detail__regex="判定").order_by('?').all()
     # allskills = allskills.filter(skill_detail__regex="造成伤害").order_by('?').all()
-    return render(request, 'zhongyan.html', {'allskills': allskills})
-
-
-
+    return render(request, 'zhongyan.html', {'allskills': allskills[:3]})
 
 
 def role_detail(request):
