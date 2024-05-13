@@ -480,3 +480,16 @@ def role_detail(request):
     if ser == 'online': server = 'sgsol'
     if ser == '移动版': server = 'msgs'
     return redirect(f'https://wiki.biligame.com/{server}/{name}')
+def wangrong(request):
+    nowv=request.GET.get('now')
+    if nowv is None:
+        nowv=0
+    else:
+        nowv=int(nowv)
+    # print(nowv)
+    with open('tmp.txt','r') as f:
+        # print(f.readline(),'11')
+        maxv=int(f.read())
+    with open('tmp.txt', 'w') as f:
+        f.write(str(max(maxv,nowv)))
+    return render(request, 'wangrong.html',{'maxv':max(maxv,nowv)})

@@ -1,0 +1,105 @@
+
+
+{% extends 'navbar.html' %}
+
+{% block container %}
+<div class="container">
+<h1>王荣</h1>
+    <div>全网站最佳{{ maxv }}张</div>
+<button class="btn btn-primary" id='big' onclick="bigger()">预测大</button>
+<button class="btn btn-primary" id='small' onclick="smaller()">预测小</button>
+<button class="btn btn-primary" id='reset' onclick="resett()">重置牌堆</button>
+<div id="result"></div>
+</div>
+<script>
+    // 固定的数组，可以根据需要修改
+    let numbers = [];
+    let idx=1;
+    let pas='';
+    let res=1;
+    function aph(x){
+        let num=['A','2','3','4','5','6','7','8','9','10','J','Q','K'];
+        return num[x];
+    }
+
+    function resett(){
+        numbers=[];
+        res=1;
+        idx=1;
+        let hua=['红桃','草花','黑桃','方块'];
+
+        for (let i = 0; i < 4; i++) {
+            for (let j = 0; j < 13; j++) {
+                for (let k = 0; k < 4; k++) {
+                    numbers.push([hua[i],j]);
+                }
+            }
+        }
+        numbers.push([hua[1],11]);
+        numbers.push([hua[2],1]);
+        numbers.push([hua[3],1]);
+        numbers.push([hua[4],11]);
+        shuffleArray();
+        pas=numbers[0];
+        document.getElementById('big').disabled=false;
+        document.getElementById('small').disabled=false;
+        const resultElement = document.getElementById('result');
+        resultElement.textContent = `上一张取出的数是${pas[0]}${aph(pas[1])}`;
+    }
+    resett();
+    function shuffleArray() {
+        // Fisher-Yates 洗牌算法
+        for (let i = numbers.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [numbers[i], numbers[j]] = [numbers[j], numbers[i]];
+        }
+    }
+    function bigger() {
+        // 生成一个随机索引
+
+        // 根据随机索引从数组中取出对应的数
+        Number=numbers[idx++];
+        res++;
+
+        if (pas[1]<Number[1]){
+            const resultElement = document.getElementById('result');
+            resultElement.textContent = `上一张取出的数是 ${pas[0]}${aph(pas[1])},现在取出的数是 ${Number[0]}${aph(Number[1])},总共摸了${res}张牌`;
+            pas=Number;
+
+        }
+        else{
+            const resultElement = document.getElementById('result');
+            resultElement.textContent = `上一张取出的数是 ${pas[0]}${aph(pas[1])},现在取出的数是 ${Number[0]}${aph(Number[1])},总共摸了${res}张牌,吉占结束。`;
+            document.getElementById('big').disabled=true;
+            document.getElementById('small').disabled=true;
+        }
+
+    }
+    function smaller() {
+        // 生成一个随机索引
+
+        // 根据随机索引从数组中取出对应的数
+        Number=numbers[idx++];
+        res++;
+
+        if (pas[1]>Number[1]){
+            const resultElement = document.getElementById('result');
+            resultElement.textContent = `上一张取出的数是 ${pas[0]}${aph(pas[1])},现在取出的数是 ${Number[0]}${aph(Number[1])},总共摸了${res}张牌`;
+            pas=Number;
+
+        }
+        else{
+            const resultElement = document.getElementById('result');
+            resultElement.textContent = `上一张取出的数是 ${pas[0]}${aph(pas[1])},现在取出的数是 ${Number[0]}${aph(Number[1])},总共摸了${res}张牌,吉占结束。`;
+            document.getElementById('big').disabled=true;
+            document.getElementById('small').disabled=true;
+        }
+
+    }
+
+
+
+
+</script>
+
+{% endblock %}
