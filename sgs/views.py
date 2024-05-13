@@ -522,11 +522,12 @@ def role_detail(request):
     return redirect(f'https://wiki.biligame.com/{server}/{name}')
 def wangrong(request):
     nowv=request.GET.get('now')
+    # print(nowv)
     if nowv is None:
         nowv=0
     else:
         nowv=int(nowv)
-    # print(nowv)
+
     with open('tmp.txt','r') as f:
         # print(f.readline(),'11')
         maxv=int(f.read())
