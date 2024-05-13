@@ -30,17 +30,44 @@ def addrole(request):
 
 
 def rolenow(request):
-    result = models.Role_Table.objects.all()
-    # print(result)
-    # for l in result:
-    #     print(l)
-    # print(result)
-    # for obj in result:
-    # print(obj['skill_belong'])
-    # tmp = models.Skills_Table.objects.filter(skill_belong=obj['skill_belong']).values('skill_server')
+    allrole = models.Role_Table.objects.all().order_by('roleserver')
+    sg = request.POST.get('sg')
+    ss = request.POST.get('ss')
+    sn = request.POST.get('sn')
+    sc = request.POST.get('sc')
+    action = request.POST.get('btn')
+    x = request.POST.get('X')
+    # print(action)
+    if sg is not None:
+        allrole = allrole.filter(rolegender__regex=sg).order_by().all()
+    else:
+        sg = ''
+    if ss is not None:
+        allrole = allrole.filter(roleserver__regex=ss).order_by().all()
+    else:
+        ss = ''
+    if sc is not None:
+        allrole = allrole.filter(rolecountry__regex=sc).order_by().all()
+    else:
+        sc = ''
+    if sn is not None:
+        allrole = allrole.filter(rolename__regex=sn).order_by().all()
+    else:
+        sn = ''
 
-    # result = models.Skills_Table.objects.annotate(merged_col2=Concat('skill_server', Value(','), output_field=CharField()))
-    return render(request, 'role.html', {'allrole': result})
+
+
+
+    if action == 'si':
+        if x.isdigit():
+            allrole = allrole.order_by('?')[:int(x)]
+        return render(request, 'role.html',
+                      {"allrole": allrole, 'ss': ss, 'sg': sg, 'sn': sn, 'sc': sc, 'X': x})
+
+    return render(request, 'role.html',
+                  {"allrole": allrole, 'ss': ss, 'sn': sn, 'sg': sg, 'sc': sc, 'X': 'X'})
+
+
 
 
 def deleaterole(request):

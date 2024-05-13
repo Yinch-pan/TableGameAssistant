@@ -2,36 +2,69 @@
 
 {% block container %}
 
-<div>
+    <div>
 
-    <div class="container">
+        <div class="container">
             <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th scope="col">武将名称</th>
-                    <th scope="col">所属服务器</th>
-                    <th scope="col">势力</th>
-                    <th scope="col">性别</th>
-                    <th scope="col">详情</th>
-                </tr>
-                </thead>
+                <form class="form-inline my-2 my-lg-0" method="post">
+                    {% csrf_token %}
+{#                    <input type="text" class="form-control" id="sd" name="sd" value="{{ sd }}"#}
+{#                           style="display: inline-block; width: 40%;">#}
+                    <button class="btn btn-outline-success" name="btn" value="si" type="submit"
+                            style="display: inline-block;width: 20%;">随机X个
+                    </button>
+                    <input type="text" class="form-control" style="display: inline-block;width: 10%;" id="X" name="X"
+                           value={{ X }}>
+                    <button class="btn btn-outline-success" name="btn" value="al" type="submit"
+                            style="display: inline-block;width: 20%;">搜索所有
+                    </button>
+
+                    <thead>
+                    <tr>
+                        <th scope="col">武将名称</th>
+                        <th scope="col">所属服务器</th>
+                        <th scope="col">势力</th>
+                        <th scope="col">性别</th>
+                        <th scope="col">详情</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+
+                    <tr>
+                        <td width="20%"><input type="text" class="form-control" id="sn" name="sn" value={{ sn }}>
+                        </td>
+                        <td width="20%"><input type="text" class="form-control" id="ss" name="ss" value={{ ss }}>
+                        </td>
+                        <td width="20%"><input type="text" class="form-control" id="sc" name="sc" value={{ sc }}>
+                        </td>
+                        <td width="20%"><input type="text" class="form-control" id="st" name="sg" value={{ sg }}>
+                        </td>
+                        <td width="20%">
+
+                        </td>
+
+                    </tr>
+                </form>
+
 
                 <tbody>
                 {% for obj in allrole %}
-                <tr>
-                    <td width="20%">{{ obj.rolename }}</td>
-                    <td width="20%">{{ obj.roleserver }}</td>
-                    <td width="20%">{{ obj.rolecountry }}</td>
-                    <td width="20%">{{ obj.rolegender }}</td>
-                    <td width="20%"><a class=" btn btn-primary" href="./role/role_detail?name={{ obj.0 }}&ser={{ obj.1 }}">详情</a></td>
-                </tr>
+                    <tr>
+                        <td width="20%">{{ obj.rolename }}</td>
+                        <td width="20%">{{ obj.roleserver }}</td>
+                        <td width="20%">{{ obj.rolecountry }}</td>
+                        <td width="20%">{{ obj.rolegender }}</td>
+                        <td width="20%"><a class=" btn btn-primary"
+                                           href="./role/role_detail?name={{ obj.0 }}&ser={{ obj.1 }}">详情</a></td>
+                    </tr>
                 {% endfor %}
                 </tbody>
             </table>
-    <a type="button" class="btn btn-danger float-right" href="/sgs">返回</a>
+            <a type="button" class="btn btn-danger float-right" href="/sgs">返回</a>
+
+        </div>
+
 
     </div>
-
-
-</div>
 {% endblock %}
