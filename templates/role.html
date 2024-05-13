@@ -19,10 +19,10 @@
                 <tbody>
                 {% for obj in allrole %}
                 <tr>
-                    <td width="20%">{{ obj.0 }}</td>
-                    <td width="20%">{{ obj.1 }}</td>
-                    <td width="20%">{{ obj.tim }}</td>
-                    <td width="20%">{{ obj.tim }}</td>
+                    <td width="20%">{{ obj.rolename }}</td>
+                    <td width="20%">{{ obj.roleserver }}</td>
+                    <td width="20%">{{ obj.rolecountry }}</td>
+                    <td width="20%">{{ obj.rolegender }}</td>
                     <td width="20%"><a class=" btn btn-primary" href="./role/role_detail?name={{ obj.0 }}&ser={{ obj.1 }}">详情</a></td>
                 </tr>
                 {% endfor %}

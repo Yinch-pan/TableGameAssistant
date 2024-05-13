@@ -30,7 +30,7 @@ def addrole(request):
 
 
 def rolenow(request):
-    result = models.Skills_Table.objects.values_list('skill_belong', 'skill_server').distinct()
+    result = models.Role_Table.objects.all()
     # print(result)
     # for l in result:
     #     print(l)
@@ -268,6 +268,14 @@ def roleskills(request):
 
 
 def skills(request):
+    with open('lasttime.txt','r') as f:
+        lasttime=int(f.read())
+    nowtime=int(time.time())
+    if nowtime-lasttime>=60*60*24*7:
+        with open('lasttime.txt','w') as f:
+            f.write(str(nowtime))
+        return redirect('/sgs/skills/refreshskills')
+
     allskills = models.Skills_Table.objects.all().order_by('skill_server')
     sb = request.POST.get('sb')
     ss = request.POST.get('ss')
@@ -298,6 +306,8 @@ def skills(request):
     else:
         sd = ''
 
+
+
     if action == 'si':
         if x.isdigit():
             allskills = allskills.order_by('?')[:int(x)]
@@ -309,8 +319,10 @@ def skills(request):
 
 
 def refreshskills(request):
-    # models.Skills_Table.objects.all().delete()
-    # thread_pool()
+    models.Skills_Table.objects.all().delete()
+    models.Role_Table.objects.all().delete()
+    thread_pool()
+
     # addskill=[]
     # for obj in models.Skills_Table.objects.all():
     #     tmp=models.Skills_Table.objects.filter(skill_detail=obj.skill_detail,skill_name=obj.skill_name).all()
@@ -330,6 +342,7 @@ def refreshskills(request):
     #         if j in det:
     #             types.append(j)
     #     models.Skills_Table.objects.filter(id=obj.id).update(skill_type=''.join(types).rstrip('，'))
+
     return redirect('/sgs/skills')
 
 

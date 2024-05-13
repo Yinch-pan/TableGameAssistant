@@ -1,6 +1,5 @@
 # -*- encoding:utf-8 -*-
 import asyncio
-import os
 import concurrent.futures
 import time
 import requests
@@ -22,7 +21,7 @@ user_list = [
 def get_rolename(ser):
     new_role_patten = re.compile(
         r'<script type="text/javascript">var titles = "(?P<rolename>.*?)";var hasInput = "";</script>', re.S)
-    new_resp = requests.get(fa_url + ser + '武将图鉴').text
+    new_resp = requests.get(fa_url + ser + homepage).text
     role_names = re.findall(new_role_patten, new_resp)[0].split(',')
     # role_names = ['SP关羽', 'SP太史慈', 'SP姜维', 'SP孙尚香', 'SP庞德', 'SP庞统', 'SP徐庶', 'SP蔡文姬', 'SP贾诩',
     #               'SP赵云',
@@ -96,48 +95,6 @@ def get_rolename(ser):
     #               '黄承彦',
     #               '黄月英', '黄权', '黄皓', '黄盖', '黄祖']
     return role_names
-
-async def get_role_details(ser,role):
-    # roleset_url = 'https://wiki.biligame.com/sgsol/武将图鉴'
-    # # roleset_text = requests.get(url=roleset_url).text
-    #
-    # rolename_com = re.compile(
-    #     r'iner"><script type="text/javascript">var titles = "(?P<name>.*?)";var hasInput = "";</script>', re.S)
-    # # rolename = re.findall(rolename_com, roleset_text)[0].split(',')
-    rolepic_com = re.compile(r'-经典形象.[p|j][n|p]g" src="(?P<rolepic>.*?)" decoding="async')
-    role_gender_ptn = re.compile(r'性别</p>(?P<gender>.*?)</div>')
-    role_shili_ptn = re.compile(r'势力</p>(?P<shili>.*?)</div>')
-
-    if ser == 'msgs/': server = '移动版'
-    if ser == 'sgsol/': server = 'online'
-    if ser == 'sgs/': server = '十周年'
-
-    role_url = f'https://wiki.biligame.com/{ser}{role}'
-
-
-
-    async with aiohttp.ClientSession() as session:
-        header = {'User-Agent': random.choice(user_list)}
-        async with session.get(role_url,headers=header) as role_text_c:
-            role_text=await role_text_c.text()
-
-            # role_text = requests.get(url=role_url).text
-            #         rolepic_url = re.findall(rolepic_com, role_text)[0].rsplit('/', 1)[0].replace('/thumb', '')
-            # print(role_text)
-            role_shili = re.findall(role_shili_ptn, role_text)[0]
-            role_gender = re.findall(role_gender_ptn, role_text)[0]
-            # tmp=(skill_name.split('/')[0], skill_belong, skill_detail, ','.join(skill_detail_type))
-            obj = models.Role_Table(rolegender=role_gender,rolecountry=role_shili,rolename=role,roleserver=server)
-            await obj.asave()
-
-            # rolepic = requests.get(url=rolepic_url)
-            # with open(f'img\\{role}.{rolepic_url[-3:]}', 'wb') as f:
-            #     f.write(rolepic.content)
-            await asyncio.sleep(0.5)
-
-
-
-
 
 
 def get_skills(ser):
@@ -241,7 +198,7 @@ def get_skills(ser):
     return skills
 
 
-async def get_skill_detail(ser, skill_name):
+def get_skill_detail(ser, skill_name):
     skill_detail_pattern = re.compile(r'''<th style="width: 100px;">描述\n</th>\n<td>(?P<skde>.*?)\n</td>''', re.S)
     skill_detail_type_pattern = re.compile(r'''<tr>\n<th>类型\n</th>.*?</tr>''', re.S)
     skill_detail_type_pattern2 = re.compile(r'''<font color="white">(?P<sktp>.*?)</font>''', re.S)
@@ -251,66 +208,46 @@ async def get_skill_detail(ser, skill_name):
     if ser == 'sgsol/': server = 'online'
     if ser == 'sgs/': server = '十周年'
 
-    async with aiohttp.ClientSession() as session:
-        header = {'User-Agent': random.choice(user_list)}
-        async with session.get(fa_url + ser + skill_name,headers=header) as skill_detail_c:
-            skill_detail_resp=await skill_detail_c.text()
-            raw_skill_detail = re.search(skill_detail_pattern, skill_detail_resp).group('skde')
-            skill_detail_type = re.search(skill_detail_type_pattern, skill_detail_resp)
-            if skill_detail_type is not None:
-                skill_detail_type=skill_detail_type.group()
-            else:
-                skill_detail_type=''
-            skill_detail_type = re.findall(skill_detail_type_pattern2, skill_detail_type)
-            skill_detail = re.sub(r'<.*?>', '', raw_skill_detail)
-            skill_belong = re.search(skill_belong_pattern, skill_detail_resp).group('skbt')
+    header = {'User-Agent': random.choice(user_list)}
+    skill_detail_c=requests.get(fa_url + ser + skill_name,headers=header)
+    skill_detail_resp= skill_detail_c.text
+    raw_skill_detail = re.search(skill_detail_pattern, skill_detail_resp).group('skde')
+    skill_detail_type = re.search(skill_detail_type_pattern, skill_detail_resp)
+    if skill_detail_type is not None:
+        skill_detail_type=skill_detail_type.group()
+    else:
+        skill_detail_type=''
+    skill_detail_type = re.findall(skill_detail_type_pattern2, skill_detail_type)
+    skill_detail = re.sub(r'<.*?>', '', raw_skill_detail)
+    skill_belong = re.search(skill_belong_pattern, skill_detail_resp).group('skbt')
 
-            tmp=(skill_name.split('/')[0], skill_belong, skill_detail, ','.join(skill_detail_type))
-            obj = models.Skills_Table(skill_name=tmp[0], skill_belong=tmp[1], skill_detail=tmp[2], skill_type=tmp[3],
-                                       skill_server=server)
-            await obj.asave()
-            await asyncio.sleep(0.5)
+    tmp=(skill_name.split('/')[0], skill_belong, skill_detail, ','.join(skill_detail_type))
+    obj = models.Skills_Table(skill_name=tmp[0], skill_belong=tmp[1], skill_detail=tmp[2], skill_type=tmp[3],
+                               skill_server=server)
+    obj.save()
+    time.sleep(0.5)
     # except:
     #     print(server,skill_name, '--------------------------------')
 
 
-async def get_sk(ser):
+def get_sk(ser):
     sk_lst = get_skills(ser)
-    tasks=[get_skill_detail(ser, sk_lst[i]) for i in range(min(2000,len(sk_lst)))]
-    await asyncio.wait(tasks)
+    for i in range(min(20, len(sk_lst))):
+        get_skill_detail(ser, sk_lst[i])
 
-async def get_ro(ser):
-    ro_lst = get_rolename(ser)
-    # os.mkdir('img')
-    tasks=[get_role_details(ser, ro_lst[i]) for i in range(min(2000,len(ro_lst)))]
-    await asyncio.wait(tasks)
-
-
-    # async for i in number_generator(0,len(sk_lst)):
-    #     await wirte_skills(get_skill_detail(ser, sk_lst[i]), server)
-
-# async def number_generator(start, end):
-#     for number in range(start, end):
-#         yield number
-#         await asyncio.sleep(0)
 
 def main(ser):
-    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
-    # print(ser)
-    if ser[1]:
-        asyncio.run(get_sk(ser[0]))
-    else:
-        asyncio.run(get_ro(ser[0]))
+    # asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+    get_sk(ser)
 
 def thread_pool():
     t1 = time.time()
 
-    with concurrent.futures.ThreadPoolExecutor(max_workers=6) as executor:
-        for i in range(6):
-            executor.submit(main, (se[i%3],i//3))
+    # with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:
+    for i in range(3):
+        main(se[i])
     t2=time.time()
     print(t2-t1)
-    # print(60)
-
-    # 1.8053619861602783
+    print(60)
+    # 45.09481453895569
     # 60
