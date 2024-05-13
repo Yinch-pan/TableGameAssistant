@@ -30,17 +30,44 @@ def addrole(request):
 
 
 def rolenow(request):
-    result = models.Skills_Table.objects.values_list('skill_belong', 'skill_server').distinct()
-    # print(result)
-    # for l in result:
-    #     print(l)
-    # print(result)
-    # for obj in result:
-    # print(obj['skill_belong'])
-    # tmp = models.Skills_Table.objects.filter(skill_belong=obj['skill_belong']).values('skill_server')
+    allrole = models.Role_Table.objects.all().order_by('roleserver')
+    sg = request.POST.get('sg')
+    ss = request.POST.get('ss')
+    sn = request.POST.get('sn')
+    sc = request.POST.get('sc')
+    action = request.POST.get('btn')
+    x = request.POST.get('X')
+    # print(action)
+    if sg is not None:
+        allrole = allrole.filter(rolegender__regex=sg).order_by().all()
+    else:
+        sg = ''
+    if ss is not None:
+        allrole = allrole.filter(roleserver__regex=ss).order_by().all()
+    else:
+        ss = ''
+    if sc is not None:
+        allrole = allrole.filter(rolecountry__regex=sc).order_by().all()
+    else:
+        sc = ''
+    if sn is not None:
+        allrole = allrole.filter(rolename__regex=sn).order_by().all()
+    else:
+        sn = ''
 
-    # result = models.Skills_Table.objects.annotate(merged_col2=Concat('skill_server', Value(','), output_field=CharField()))
-    return render(request, 'role.html', {'allrole': result})
+
+
+
+    if action == 'si':
+        if x.isdigit():
+            allrole = allrole.order_by('?')[:int(x)]
+        return render(request, 'role.html',
+                      {"allrole": allrole, 'ss': ss, 'sg': sg, 'sn': sn, 'sc': sc, 'X': x})
+
+    return render(request, 'role.html',
+                  {"allrole": allrole, 'ss': ss, 'sn': sn, 'sg': sg, 'sc': sc, 'X': 'X'})
+
+
 
 
 def deleaterole(request):
@@ -268,6 +295,14 @@ def roleskills(request):
 
 
 def skills(request):
+    with open('lasttime.txt','r') as f:
+        lasttime=int(f.read())
+    nowtime=int(time.time())
+    if nowtime-lasttime>=60*60*24*7:
+        with open('lasttime.txt','w') as f:
+            f.write(str(nowtime))
+        return redirect('/sgs/skills/refreshskills')
+
     allskills = models.Skills_Table.objects.all().order_by('skill_server')
     sb = request.POST.get('sb')
     ss = request.POST.get('ss')
@@ -298,6 +333,8 @@ def skills(request):
     else:
         sd = ''
 
+
+
     if action == 'si':
         if x.isdigit():
             allskills = allskills.order_by('?')[:int(x)]
@@ -309,8 +346,10 @@ def skills(request):
 
 
 def refreshskills(request):
-    # models.Skills_Table.objects.all().delete()
-    # thread_pool()
+    models.Skills_Table.objects.all().delete()
+    models.Role_Table.objects.all().delete()
+    thread_pool()
+
     # addskill=[]
     # for obj in models.Skills_Table.objects.all():
     #     tmp=models.Skills_Table.objects.filter(skill_detail=obj.skill_detail,skill_name=obj.skill_name).all()
@@ -330,6 +369,7 @@ def refreshskills(request):
     #         if j in det:
     #             types.append(j)
     #     models.Skills_Table.objects.filter(id=obj.id).update(skill_type=''.join(types).rstrip('，'))
+
     return redirect('/sgs/skills')
 
 
@@ -480,3 +520,17 @@ def role_detail(request):
     if ser == 'online': server = 'sgsol'
     if ser == '移动版': server = 'msgs'
     return redirect(f'https://wiki.biligame.com/{server}/{name}')
+def wangrong(request):
+    nowv=request.GET.get('now')
+    # print(nowv)
+    if nowv is None:
+        nowv=0
+    else:
+        nowv=int(nowv)
+
+    with open('tmp.txt','r') as f:
+        # print(f.readline(),'11')
+        maxv=int(f.read())
+    with open('tmp.txt', 'w') as f:
+        f.write(str(max(maxv,nowv)))
+    return render(request, 'wangrong.html',{'maxv':max(maxv,nowv)})
