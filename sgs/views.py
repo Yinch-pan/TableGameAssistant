@@ -295,13 +295,13 @@ def roleskills(request):
 
 
 def skills(request):
-    with open('lasttime.txt','r') as f:
-        lasttime=int(f.read())
-    nowtime=int(time.time())
-    if nowtime-lasttime>=60*60*24*7:
-        with open('lasttime.txt','w') as f:
-            f.write(str(nowtime))
-        return redirect('/sgs/skills/refreshskills')
+    # with open('lasttime.txt','r') as f:
+    #     lasttime=int(f.read())
+    # nowtime=int(time.time())
+    # if nowtime-lasttime>=60*60*24*7:
+    #     with open('lasttime.txt','w') as f:
+    #         f.write(str(nowtime))
+    #     return redirect('/sgs/skills/refreshskills')
 
     allskills = models.Skills_Table.objects.all().order_by('skill_server')
     sb = request.POST.get('sb')
@@ -360,15 +360,15 @@ def refreshskills(request):
     # for obj in addskill:
     #     obj.save()
     #
-    # type = ['主公技，', '觉醒技，', '转换技，', '锁定技，', '限定技，', '宗族技，', '势力技，', '主将技，', '副将技，',
-    #         '使命技，', '蓄力技，', '阵法技，']
-    # for obj in models.Skills_Table.objects.all():
-    #     det = obj.skill_detail
-    #     types = []
-    #     for j in type:
-    #         if j in det:
-    #             types.append(j)
-    #     models.Skills_Table.objects.filter(id=obj.id).update(skill_type=''.join(types).rstrip('，'))
+    type = ['主公技，', '觉醒技，', '转换技，', '锁定技，', '限定技，', '宗族技，', '势力技，', '主将技，', '副将技，',
+            '使命技，', '蓄力技，', '阵法技，']
+    for obj in models.Skills_Table.objects.all():
+        det = obj.skill_detail
+        types = []
+        for j in type:
+            if j in det:
+                types.append(j)
+        models.Skills_Table.objects.filter(id=obj.id).update(skill_type=''.join(types).rstrip('，'))
 
     return redirect('/sgs/skills')
 

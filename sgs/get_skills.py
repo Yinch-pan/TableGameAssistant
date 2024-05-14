@@ -250,7 +250,7 @@ async def get_skill_detail(ser, skill_name):
     if ser == 'msgs/': server = '移动版'
     if ser == 'sgsol/': server = 'online'
     if ser == 'sgs/': server = '十周年'
-
+    # try:
     async with aiohttp.ClientSession() as session:
         header = {'User-Agent': random.choice(user_list)}
         async with session.get(fa_url + ser + skill_name,headers=header) as skill_detail_c:
@@ -269,19 +269,22 @@ async def get_skill_detail(ser, skill_name):
             obj = models.Skills_Table(skill_name=tmp[0], skill_belong=tmp[1], skill_detail=tmp[2], skill_type=tmp[3],
                                        skill_server=server)
             await obj.asave()
-            await asyncio.sleep(0.5)
+            await asyncio.sleep(1)
     # except:
     #     print(server,skill_name, '--------------------------------')
 
 
 async def get_sk(ser):
     sk_lst = get_skills(ser)
-    tasks=[get_skill_detail(ser, sk_lst[i]) for i in range(min(2000,len(sk_lst)))]
-    await asyncio.wait(tasks)
+    t=400
+    for i in range(3):
+        tasks=[get_skill_detail(ser, sk_lst[i]) for i in range(i*t,min(len(sk_lst),(i+1)*t))]
+        await asyncio.wait(tasks)
 
 async def get_ro(ser):
     ro_lst = get_rolename(ser)
     # os.mkdir('img')
+    # print(len(ro_lst), ser)
     tasks=[get_role_details(ser, ro_lst[i]) for i in range(min(2000,len(ro_lst)))]
     await asyncio.wait(tasks)
 
@@ -304,7 +307,6 @@ def main(ser):
 
 def thread_pool():
     t1 = time.time()
-
     with concurrent.futures.ThreadPoolExecutor(max_workers=6) as executor:
         for i in range(6):
             executor.submit(main, (se[i%3],i//3))
